@@ -5,17 +5,18 @@ from enum import IntEnum
 from .dbconnection import DatabaseConnection as Database
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
-
-#AWS database credentials
-# db = Database() #uncomment when DB set up
+from config import load_config
 
 #App instance
-
 app = Flask("Signy")
+config = load_config()
 app.config['CORS_HEADER'] = 'Content-type'
-app.config['SECRET_KEY'] = "signy"
+app.config['SECRET_KEY'] = config.secret_key
 
-app.config['SQLALCHEMY_DATABASE_URI'] = ""
+# Database connection.
+DB_URI = f'postgresql://{config.name}:{config.password}@{config.host}:5432/{config.database}'
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 jwt = JWTManager(app)
