@@ -4,6 +4,7 @@ from flask_cors import CORS
 from enum import IntEnum
 from .dbconnection import DatabaseConnection as Database
 from flask_jwt_extended import JWTManager
+from flask_sqlalchemy import SQLAlchemy
 
 #AWS database credentials
 # db = Database() #uncomment when DB set up
@@ -13,6 +14,9 @@ from flask_jwt_extended import JWTManager
 app = Flask("Signy")
 app.config['CORS_HEADER'] = 'Content-type'
 app.config['SECRET_KEY'] = "signy"
+
+app.config['SQLALCHEMY_DATABASE_URI'] = ""
+db = SQLAlchemy(app)
 
 jwt = JWTManager(app)
 
