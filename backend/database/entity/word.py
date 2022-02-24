@@ -1,4 +1,4 @@
-from ... import db
+from api import db
 from sqlalchemy import Column, Integer, Text, ForeignKey
 from sqlalchemy.orm import relationship
 

@@ -1,4 +1,4 @@
-from ... import db
+from api import db
 from sqlalchemy import Column, DateTime, Integer, Text, text
 
 class Account(db.Model):
