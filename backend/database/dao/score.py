@@ -17,12 +17,12 @@ class ScoreDAO:
         return new_score.id
 
     @staticmethod  # Pulls all scores tied to specific user
-    def get_user_scores(account):
-        return db.session.query(score).filter(score.account_id == account)
+    def get_user_scores(uid):
+        return db.session.query(score).filter(score.account_id == uid)
 
     @staticmethod  # Pulls all scores tied to specific game
-    def get_game_scores(game):
-        return db.session.query(score).filter(score.game_id == game)
+    def get_game_scores(gid):
+        return db.session.query(score).filter(score.game_id == gid)
 
     @staticmethod  # Pulls all scores tied to specific user and game (ex. All User 1 scores from Hangman)
     def get_user_game_scores(json):
@@ -37,4 +37,16 @@ class ScoreDAO:
         score_deleted = db.session.query(score).where(score.id == sid).delete()
         db.session.commit()
         return score_deleted
+
+    @staticmethod  # Deletes every score tied to a user
+    def delete_scores_user(uid):
+        scores_deleted = db.session.query(score).where(score.account_id == uid).delete()
+        db.session.commit()
+        return scores_deleted
+
+    @staticmethod  # Deletes every score tied to a game
+    def delete_scores_game(gid):
+        scores_deleted = db.session.query(score).where(score.game_id == gid).delete()
+        db.session.commit()
+        return scores_deleted
 

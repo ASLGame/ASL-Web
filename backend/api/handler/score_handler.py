@@ -73,3 +73,24 @@ class ScoreHandler:
                 return jsonify("Score not found"), HttpStatus.NOT_FOUND.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def delete_scores_user(uid):
+        try:
+            score_dao = scoreDAO.delete_scores_user(uid)
+            result = []
+            for s in score_dao:
+                result.append(s)
+            return jsonify(result), HttpStatus.OK.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def delete_scores_game(gid):
+        try:
+            score_dao = scoreDAO.delete_scores_game(gid)
+            result = []
+            for s in score_dao:
+                result.append(s)
+            return jsonify(result), HttpStatus.OK.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
