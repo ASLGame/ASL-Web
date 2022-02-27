@@ -1,5 +1,3 @@
-from curses.ascii import HT
-import http
 from database.dao import scoreDAO
 from flask import jsonify
 from api import HttpStatus
