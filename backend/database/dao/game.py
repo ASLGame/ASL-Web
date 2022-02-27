@@ -1,6 +1,6 @@
-from unicodedata import name
 from ..entity import game
 from api import db
+from flask import jsonify
 
 class GameDao: 
     
@@ -18,12 +18,16 @@ class GameDao:
     
     @staticmethod
     def get_game_by_id(gid):
-        pass
+        return game.query.get(gid)
 
     @staticmethod
     def delete_game(gid):
-        pass
+        game_deleted = db.session.query(game).where(game.id==gid).delete()
+        db.session.commit()
+        return game_deleted
 
     @staticmethod
     def update_game(gid, json):
-        pass
+        game_updated = db.session.query(game).where(game.id==gid).update({"name": json['name'], "description":json['description'], "rules":json['rules'], "type":json['type']})
+        db.session.commit()
+        return game_updated
