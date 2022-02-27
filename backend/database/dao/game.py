@@ -1,6 +1,5 @@
 from ..entity import game
 from api import db
-from flask import jsonify
 
 class GameDao: 
     
