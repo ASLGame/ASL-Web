@@ -3,6 +3,10 @@ from sqlalchemy import Column, DateTime, Integer, ForeignKey, text
 from sqlalchemy.orm import relationship
 
 class Score(db.Model):
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
     __tablename__ = 'Score'
 
     id = Column(Integer, primary_key=True)
