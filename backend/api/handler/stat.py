@@ -38,7 +38,7 @@ class StatHandler:
             stat = statDao.update_stat(id, json)
             if not stat:
                 return jsonify("Stat not found"), HttpStatus.NOT_FOUND.value
-            return jsonify("Stat succesfully updated"), HttpStatus.OK.value
+            return jsonify("Stat successfully updated"), HttpStatus.OK.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
