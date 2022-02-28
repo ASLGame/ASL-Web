@@ -2,7 +2,7 @@ from database.dao import accountDAO
 from flask import jsonify
 from api import HttpStatus
 
-class Accounthandler:
+class AccountHandler:
 
     def get_all_accounts():
         try:
