@@ -1,6 +1,7 @@
 from database.dao import scoreDAO
 from flask import jsonify
 from api import HttpStatus
+from api.common.utils import sql_to_dict
 
 class ScoreHandler:
 
@@ -9,6 +10,7 @@ class ScoreHandler:
             score_dao = scoreDAO.get_all_scores()
             result = []
             for s in score_dao:
+                s = sql_to_dict(s)
                 result.append(s)
             return jsonify(result), HttpStatus.OK.value
         except Exception as e:
@@ -27,6 +29,7 @@ class ScoreHandler:
             score_dao = scoreDAO.get_user_scores(account)
             result = []
             for s in score_dao:
+                s = sql_to_dict(s)
                 result.append(s)
             return jsonify(result), HttpStatus.OK.value
         except Exception as e:
@@ -37,6 +40,7 @@ class ScoreHandler:
             score_dao = scoreDAO.get_game_scores(game)
             result = []
             for s in score_dao:
+                s = sql_to_dict(s)
                 result.append(s)
             return jsonify(result), HttpStatus.OK.value
         except Exception as e:
@@ -47,6 +51,7 @@ class ScoreHandler:
             score_dao = scoreDAO.get_user_game_scores(json)
             result = []
             for s in score_dao:
+                s = sql_to_dict(s)
                 result.append(s)
             return jsonify(result), HttpStatus.OK.value
         except Exception as e:
@@ -55,8 +60,9 @@ class ScoreHandler:
     def get_score_id(sid):
         try:
             score_dao = scoreDAO.get_score_id(sid)
+            score_dao = sql_to_dict(score_dao)
             if score_dao:
-                return jsonify(score_dao.as_dict()), HttpStatus.OK.value
+                return jsonify(score_dao), HttpStatus.OK.value
             else:
                 return jsonify("Score with ID: {} not found".format(sid)), HttpStatus.NOT_FOUND.value
         except Exception as e:
@@ -77,6 +83,7 @@ class ScoreHandler:
             score_dao = scoreDAO.delete_scores_user(uid)
             result = []
             for s in score_dao:
+                s = sql_to_dict(s)
                 result.append(s)
             return jsonify(result), HttpStatus.OK.value
         except Exception as e:
@@ -87,6 +94,7 @@ class ScoreHandler:
             score_dao = scoreDAO.delete_scores_game(gid)
             result = []
             for s in score_dao:
+                s = sql_to_dict(s)
                 result.append(s)
             return jsonify(result), HttpStatus.OK.value
         except Exception as e:

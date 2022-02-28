@@ -4,7 +4,7 @@ from api import app
 from api.handler.score_handler import ScoreHandler
 
 @app.route("signy/scores", methods=['GET', 'POST'])
-def get_create_scores():
+def get_all_scores_or_create():
     if request.method == 'GET':
         return ScoreHandler.get_all_scores()
     elif request.method == 'POST':
