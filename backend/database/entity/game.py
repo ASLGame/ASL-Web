@@ -3,6 +3,7 @@ from sqlalchemy import Column, DateTime, Integer, Text, text, ForeignKey
 from sqlalchemy.orm import relationship
 
 class Game(db.Model):
+
     __tablename__ = 'Game'
 
     id = Column(Integer, primary_key=True)
