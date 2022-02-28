@@ -1,6 +1,7 @@
 from database.dao import gameDao
 from flask import jsonify
 from api import HttpStatus
+from api.common.utils import sql_to_dict
 
 class GameHandler:
 
@@ -9,7 +10,8 @@ class GameHandler:
             game_dao = gameDao.get_all_games()
             result = []
             for g in game_dao:
-                result.append(g.as_dict())
+                g = sql_to_dict(g)
+                result.append(g)
             return jsonify(result), HttpStatus.OK.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
@@ -25,8 +27,9 @@ class GameHandler:
     def get_game_by_id(gid):
         try:
             game_dao = gameDao.get_game_by_id(gid)
+            game_dao = sql_to_dict(game_dao)
             if game_dao:
-                return jsonify(game_dao.as_dict()), HttpStatus.OK.value
+                return jsonify(game_dao), HttpStatus.OK.value
             else:
                 return jsonify("Game with ID: {} not found".format(gid)), HttpStatus.NOT_FOUND.value
         except Exception as e:
