@@ -1,5 +1,6 @@
 from .account import AccountDao
 from .game import GameDao
+from .word import WordDao
 from .stat import StatDao
 from .account_stat import AccountStatDao
 from .achievement_type import AchievementTypeDao
@@ -9,6 +10,7 @@ from .bank import BankDao
 bankDao = BankDao
 accountDAO = AccountDao
 gameDao = GameDao
+wordDao = WordDao
 statDao = StatDao
 accountStatDao = AccountStatDao
 achievementTypeDao = AchievementTypeDao
