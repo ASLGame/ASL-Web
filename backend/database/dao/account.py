@@ -21,6 +21,10 @@ class AccountDao:
         db.session.commit()
         return account_deleted
 
+    @staticmethod
+    def get_account_id(uid):
+        return account.query.get(uid)
+
     @staticmethod  # Gets account based on username
     def get_account_username(uname):
         return db.session.query(account).filter(account.username == uname)
