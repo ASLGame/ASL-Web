@@ -21,7 +21,7 @@ class AccountDao:
         db.session.commit()
         return account_deleted
 
-    @staticmethod
+    @staticmethod # Gets account based on its ID
     def get_account_id(uid):
         return account.query.get(uid)
 
