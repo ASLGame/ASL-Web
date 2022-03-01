@@ -1,6 +1,6 @@
 from api import app
-from database.dao import AccountDao
+from api.handler.account_handler import AccountHandler
+
 @app.route("/hello")
 def hello_world():
-    print(AccountDao.getAllAccounts())
     return "Hello World"
