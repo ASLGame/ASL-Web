@@ -1,5 +1,5 @@
 const url = "localhost:8000/"
-export function login(user: object) {
+export function signin(user: object) {
     let errorMessage;
     // fetch(url + "users/login", {
     //     method: "POST",

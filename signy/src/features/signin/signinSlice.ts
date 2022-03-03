@@ -1,27 +1,27 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
-import { login } from "./authorizationAPI";
+import { signin } from "./signinAPI";
 
-export interface AuthorizationState {
+export interface SignInState {
     user: object;
     isAuth: true | false
 }
 
-const initialState: AuthorizationState = {
+const initialState: SignInState = {
     user: {},
     isAuth: false,
 }
 
-export const loginAsync = createAsyncThunk(
-    'authorization/login',
+export const signinAsync = createAsyncThunk(
+    'authorization/signin',
     async (user: object) => {
-        const response = await login(user);
+        const response = await signin(user);
         return response;
     }
 )
 
-export const authorizationSlice = createSlice({
-    name: 'authorization',
+export const signinSlice = createSlice({
+    name: 'signin',
     initialState,
     reducers: {
         setCurrentUser: (state, action: PayloadAction<object>) => {
@@ -29,16 +29,16 @@ export const authorizationSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(loginAsync.fulfilled, (state) => {
+        builder.addCase(signinAsync.fulfilled, (state) => {
             state.isAuth = !state.isAuth;
         })
     }
 })
 
 //Export actions
-export const { setCurrentUser } = authorizationSlice.actions;
+export const { setCurrentUser } = signinSlice.actions;
 
 //Selecter allows us to select a value of the state
-export const selectAuth = (state: RootState) => state.authorization.isAuth;
+export const selectSignIn = (state: RootState) => state.signin.isAuth;
 
-export default authorizationSlice.reducer;
+export default signinSlice.reducer;
