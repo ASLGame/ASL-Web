@@ -7,7 +7,7 @@ class GameAchievement(db.Model):
 
     id = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)
-    descrition = Column(Text, nullable=False)
+    description = Column(Text, nullable=False)
     task = Column(Integer, nullable=False)
     achievement_type_id = Column(ForeignKey('Achievement_Type.id'), nullable=False)
     stats_id = Column(ForeignKey('Stats.id'), nullable=False)
