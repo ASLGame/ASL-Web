@@ -18,7 +18,7 @@ def get_update_delete_account_by_id(uid):
     if request.method == 'GET':
         return AccountHandler.get_account_id(uid)
     elif request.method == 'PUT':
-        return AccountHandler.update_account(uid)
+        return AccountHandler.update_account(uid, request.json)
     elif request.method == 'DELETE':
         return AccountHandler.delete_account(uid)
     
