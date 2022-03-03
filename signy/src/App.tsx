@@ -3,6 +3,7 @@ import { Counter } from "./features/counter/Counter";
 import  { SignIn }  from "./features/signin/SignIn";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SignUp } from "./features/signup/SignUp";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             */}
             <Route path="/" element={<Counter />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
           </Routes>
         </header>
       </div>
