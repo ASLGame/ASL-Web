@@ -9,7 +9,7 @@ class AccountDao:
 
     @staticmethod  # Creates new account
     def create_account(json):
-        new_account = account(username=json['username'], password=json['password'], DOB=json['DOB'], first_name=json['first_name'], last_name=json['last_name'], 
+        new_account = account(username=json['username'], email=json['email'], password=json['password'], DOB=json['DOB'], first_name=json['first_name'], last_name=json['last_name'], 
                                 date_created=json['date_created'], date_updated=json['date_created'], role=json['role'])
         db.session.add(new_account)
         db.session.commit()
@@ -35,7 +35,7 @@ class AccountDao:
 
     @staticmethod  # Updates account; doesn't update username nor date created
     def update_account(uid, json):
-        account_updated = db.session.query(account).where(account.id == uid).update({"password": json['password'], "DOB": json['DOB'], "first_name":json['first_name'], "last_name":json['last_name'],
+        account_updated = db.session.query(account).where(account.id == uid).update({"password": json['password'], "email":json['email'], "DOB": json['DOB'], "first_name":json['first_name'], "last_name":json['last_name'],
                                                                                     "date_updated": json['date_updated'], "role":json['role']})
         db.session.commit()
         return account_updated
