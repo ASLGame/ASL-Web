@@ -6,7 +6,7 @@ class Account(db.Model):
 
     id = Column(Integer, primary_key=True)
     username = Column(Text, nullable=False, unique=True)
-    email = Column(Text, nullable=False)
+    email = Column(Text, nullable=False, unique=True)
     password = Column(Text, nullable=False)
     DOB = Column(DateTime(True), nullable=False)
     first_name = Column(Text, nullable=False)
