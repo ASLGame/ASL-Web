@@ -8,3 +8,4 @@ from .bank import *
 from .achievement_type import *
 from .score import *
 from .game_achievements import *
+from .game_assets import *
