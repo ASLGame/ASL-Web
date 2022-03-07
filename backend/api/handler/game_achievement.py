@@ -3,7 +3,7 @@ from flask import jsonify
 from api import HttpStatus
 from api.common.utils import sql_to_dict
 
-class Game_achievement_Handler:
+class Game_Achievement_Handler:
 
     def get_all_game_achievements():
         try:
