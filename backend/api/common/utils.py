@@ -17,5 +17,7 @@ def dummyDB():
     db.session.add(new_bank)
     new_game = game(name="Game One", description="A game you can play", rules="1. Dont talk about Fight Club", type="Text", date_created=func.now(), bank_id=0)
     db.session.add(new_game)
-
+    new_score = score(score=420, date_achieved=func.now(), account_id=0, game_id=0)
+    db.session.add(new_score)
+    db.session.commit()
     return True
