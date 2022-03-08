@@ -19,5 +19,11 @@ def dummyDB():
     db.session.add(new_game)
     new_score = score(score=420, date_achieved=func.now(), account_id=1, game_id=1)
     db.session.add(new_score)
+    new_stat = stat(name="Finger Guns", description="Number of finger guns", type="No idea")
+    db.session.add(new_stat)
+    new_achievement = achievement_type(name="Best Capstone", description="Signy is the best capstone proyect", type="No idea")
+    db.session.add(new_achievement)
+    new_gachievement = game_achievement(name="Open the game", description="Against all odds, you opened the game", task=1, achievement_type_id=1, stats_id=1, game_id=1)
+    db.session.add(new_gachievement)
     db.session.commit()
     return True
