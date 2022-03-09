@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./signup.module.css";
 import { BackButton, Button } from "../../components/Button.styled";
+import { signupAsync } from "../signin/signinSlice";
+import { useAppDispatch } from "../../app/hooks";
 
 export function SignUp() {
   const [formPhase, setFormPhase] = useState(false);
@@ -12,6 +14,8 @@ export function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
+
+  const dispatch = useAppDispatch();
 
   let content;
 
@@ -69,7 +73,7 @@ export function SignUp() {
             </a>
           </div>
           <div className={styles.button_container}>
-            <Button onClick={() => console.log(firstname, lastname, username, password, dob, email, repassword)}>
+            <Button onClick={() => dispatch(signupAsync({first_name: firstname, last_name: lastname, password: password, username: username, email: email, DOB: dob, role: "User"}))}>
               Sign Up
             </Button>
           </div>
@@ -105,7 +109,7 @@ export function SignUp() {
             <label className={styles.label}>Date of Birth</label>
             <input
               className={styles.input}
-              type="text"
+              type="date"
               id="dob"
               name="dob"
               value={dob}
