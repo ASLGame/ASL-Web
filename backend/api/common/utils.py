@@ -17,6 +17,10 @@ def dummyDB():
     db.session.add(new_bank)
     new_game = game(name="Game One", description="A game you can play", rules="1. Dont talk about Fight Club", type="Text", date_created=func.now(), bank_id=1)
     db.session.add(new_game)
+    new_game = game(name="Game Two", description="Another game you can play", rules="1. Dont talk about Fight Club", type="Text", date_created=func.now(), bank_id=1)
+    db.session.add(new_game)
+    new_game = game(name="Game Three", description="Yet another game you can play", rules="1. Dont talk about Fight Club", type="Text", date_created=func.now(), bank_id=1)
+    db.session.add(new_game)
     new_score = score(score=420, date_achieved=func.now(), account_id=1, game_id=1)
     db.session.add(new_score)
     new_stat = stat(name="Finger Guns", description="Number of finger guns", type="No idea")
@@ -25,5 +29,14 @@ def dummyDB():
     db.session.add(new_achievement)
     new_gachievement = game_achievement(name="Open the game", description="Against all odds, you opened the game", task=1, achievement_type_id=1, stats_id=1, game_id=1)
     db.session.add(new_gachievement)
+    new_asset = game_asset(name="One", description="Picture of a number 1", type="Picture", path="https://cdn.vox-cdn.com/thumbor/Hgbit5XaEq1wAhGPYtb1R-kD570=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/12055117/logo_one_icon.jpg", 
+                            date_created=func.now(), date_updated=func.now(), game_id=1)
+    db.session.add(new_asset)
+    new_asset = game_asset(name="Two", description="Picture of a number 2", type="Picture", path="https://www.freeiconspng.com/uploads/number-two-icon-18.jpg", 
+                            date_created=func.now(), date_updated=func.now(), game_id=2)
+    db.session.add(new_asset)
+    new_asset = game_asset(name="Three", description="Picture of a number 3", type="Picture", path="https://www.nicepng.com/png/detail/38-385284_number-3-png-number-3-transparent-background.png", 
+                            date_created=func.now(), date_updated=func.now(), game_id=3)
+    db.session.add(new_asset)
     db.session.commit()
     return True
