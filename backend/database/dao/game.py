@@ -1,5 +1,8 @@
 from ..entity import game
+from ..entity import game_asset
 from api import db
+from sqlalchemy import desc, func, text
+
 
 class GameDao: 
     
@@ -17,6 +20,8 @@ class GameDao:
     
     @staticmethod
     def get_game_by_id(gid):
+        gamez = game.query.get(gid)
+        print(gamez.gameAssets)
         return game.query.get(gid)
 
     @staticmethod
@@ -30,3 +35,13 @@ class GameDao:
         game_updated = db.session.query(game).where(game.id==gid).update({"name": json['name'], "description":json['description'], "rules":json['rules'], "type":json['type']})
         db.session.commit()
         return game_updated
+
+    @staticmethod
+    def newest_game():
+        newest_game = db.session.query(game).order_by(game.date_created).first()
+        return newest_game
+
+    @staticmethod
+    def featured_games():
+        featured_games = game.query.limit(3).all()
+        return featured_games
