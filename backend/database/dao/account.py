@@ -10,8 +10,8 @@ class AccountDao:
 
     @staticmethod  # Creates new account
     def create_account(json):
-        json['password'] = sha256.hash(json['password'])
-        new_account = account(username=json['username'], email=json['email'], password=json['password'], DOB=json['DOB'], first_name=json['first_name'], last_name=json['last_name'], 
+        hashed_password = sha256.hash(json['password'])
+        new_account = account(username=json['username'], email=json['email'], password=hashed_password, DOB=json['DOB'], first_name=json['first_name'], last_name=json['last_name'], 
                         role=json['role'])
         db.session.add(new_account)
         db.session.commit()

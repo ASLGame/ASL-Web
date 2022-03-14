@@ -113,7 +113,7 @@ class AccountHandler:
                 account_dao = sql_to_dict(account_dao)
                 if(sha256.verify(json['password'], account_dao['password'])):
                     access_token = create_access_token(identity=account_dao['id'], expires_delta=timedelta(days=5))
-                    return jsonify(access_token = access_token, account_id = account_dao['id'], account_email = account_dao['email'], account_role=account_dao['role'])
+                    return jsonify(access_token = access_token, account_id = account_dao['id'], account_email = account_dao['email'], account_role=account_dao['role']), HttpStatus.OK.value
                 else:
                     return jsonify(reason="Password did not match"), HttpStatus.BAD_REQUEST.value
             return jsonify(reason="Username not found"), HttpStatus.BAD_REQUEST.value
@@ -131,10 +131,7 @@ class AccountHandler:
             create_account = accountDAO.create_account(json)
             token = AccountHandler.generate_confirmation_token(json.get('email'))
             send_email(json['email'], "Email Confirmation Code", token)
-
-            AccountHandler.sign_in(json)
-            return jsonify("Email confirmation has been sent."), HttpStatus.OK.value
-            
+            return AccountHandler.sign_in(json)
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
