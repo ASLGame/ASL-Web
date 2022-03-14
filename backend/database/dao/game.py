@@ -1,6 +1,8 @@
 from ..entity import game
 from api import db
-from sqlalchemy import desc
+from sqlalchemy import desc, func, and_, or_
+from sqlalchemy.sql import select
+from ..entity import score
 
 
 class GameDao: 
@@ -42,5 +44,8 @@ class GameDao:
 
     @staticmethod
     def featured_games():
-        featured_games = game.query.limit(3).all()
+        subquery = db.session.query(score.game_id).group_by(score.game_id).order_by(func.count(score.game_id)).limit(3).subquery()
+        featured_games = db.session.query(game).join(score).filter(game.id.in_(select(subquery))).all()
+        if not featured_games or len(featured_games) < 2:
+            featured_games = game.query.limit(3).all()
         return featured_games
