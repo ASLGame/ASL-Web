@@ -45,11 +45,8 @@
   transition: 0.5s ease;
   opacity: 0;
   height: 90%;
-  width: 95%;
-  /* transform: translate(-0%, -320%);
-  -ms-transform: translate(-200%, -500%); */
+  width: 98%;
   transform: translate(-0%, -100%);
-  /* -ms-transform: translate(-200%, -50%); */
   text-align: center;
 }
 .text {
@@ -57,4 +54,5 @@
   color: white;
   font-size: 16px;
   padding: 16px 32px;
+  border-radius: 5%;
 }

@@ -1,7 +1,6 @@
 from ..entity import game
-from ..entity import game_asset
 from api import db
-from sqlalchemy import desc, func, text
+from sqlalchemy import desc
 
 
 class GameDao: 
@@ -38,7 +37,7 @@ class GameDao:
 
     @staticmethod
     def newest_game():
-        newest_game = db.session.query(game).order_by(game.date_created).first()
+        newest_game = db.session.query(game).order_by(desc(game.date_created)).first()
         return newest_game
 
     @staticmethod

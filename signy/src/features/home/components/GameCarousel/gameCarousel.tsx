@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { useSelector } from "react-redux";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
@@ -11,6 +11,7 @@ interface GameCarouselProps {}
 
 const GameCarousel: FunctionComponent<GameCarouselProps> = () => {
   const featuredGames = useSelector(selectFeaturedGames)!;
+  const [currentFeaturedGameName, setCurrentFeaturedGameName] = useState("");
 
   const renderCarouselGames = (featuredGames: Array<Game>) => {
     return featuredGames.map((game) => {
@@ -31,7 +32,7 @@ const GameCarousel: FunctionComponent<GameCarouselProps> = () => {
 
   return (
     <div className={styles.carouselContainer}>
-      <h2 className={styles.gameName}> Name of Game</h2>
+      <h2 className={styles.gameName}> {currentFeaturedGameName}</h2>
       <Carousel
         className={styles.carousel && styles.carouselSlider}
         autoPlay={true}
@@ -39,29 +40,11 @@ const GameCarousel: FunctionComponent<GameCarouselProps> = () => {
         stopOnHover={true}
         showThumbs={false}
         showArrows={false}
+        onChange={(e, item) =>
+          setCurrentFeaturedGameName(featuredGames[e].name)
+        }
       >
         {renderCarouselGames(featuredGames)}
-        {/* <div className={styles.imageContainer}>
-          <img
-            className={styles.image}
-            src="https://cdn.charlieintel.com/wp-content/uploads/2021/09/16034947/CoD-2023.jpg"
-            alt="Whoops..."
-          />
-        </div>
-        <div className={styles.imageContainer}>
-          <img
-            className={styles.image}
-            src="https://cdn1.dotesports.com/wp-content/uploads/2020/04/02142718/GarenaWorld.png"
-            alt="Whoops..."
-          />
-        </div>
-        <div className={styles.imageContainer}>
-          <img
-            className={styles.image}
-            src="https://images.livemint.com/img/2020/06/03/1600x900/Valorant_1591218052835_1591218061187.jpg"
-            alt="Whoops..."
-          />
-        </div> */}
       </Carousel>
     </div>
   );
