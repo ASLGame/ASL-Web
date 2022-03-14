@@ -6,6 +6,7 @@ from .account_stat import AccountStatDao
 from .achievement_type import AchievementTypeDao
 from .score import ScoreDAO
 from .bank import BankDao
+from .game_achievements import GameAchievementsDAO
 from .game_asset import GameAssetDAO
 
 bankDao = BankDao
@@ -16,4 +17,5 @@ statDao = StatDao
 accountStatDao = AccountStatDao
 achievementTypeDao = AchievementTypeDao
 scoreDAO = ScoreDAO
+gameachievementsDAO = GameAchievementsDAO
 gameassetDAO = GameAssetDAO
