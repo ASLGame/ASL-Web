@@ -1,0 +1,8 @@
+.profile_circle {
+  position: absolute;
+  width: 10%;
+  height: 20%;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 8px solid var(--dark_purple);
+}
