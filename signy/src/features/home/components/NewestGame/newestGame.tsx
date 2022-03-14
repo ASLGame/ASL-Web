@@ -9,7 +9,9 @@ const NewestGame: FunctionComponent<NewestGameProps> = () => {
   const newestGame = useSelector(selectNewestGame)!;
   const newestGameState = useSelector(selectNewestGameState)!;
 
+  console.log(newestGame);
   if (newestGameState !== "loading") {
+    console.log(newestGame.gameAssets[0].path);
     return (
       <div className={styles.container}>
         <h1 className={styles.title}>Newest Game</h1>

@@ -34,12 +34,11 @@ const GameCarousel: FunctionComponent<GameCarouselProps> = () => {
     <div className={styles.carouselContainer}>
       <h2 className={styles.gameName}> {currentFeaturedGameName}</h2>
       <Carousel
-        className={styles.carousel && styles.carouselSlider}
         autoPlay={true}
         infiniteLoop={true}
         stopOnHover={true}
         showThumbs={false}
-        showArrows={false}
+        showStatus={true}
         onChange={(e, item) =>
           setCurrentFeaturedGameName(featuredGames[e].name)
         }
