@@ -131,8 +131,6 @@ class AccountHandler:
             create_account = accountDAO.create_account(json)
             token = AccountHandler.generate_confirmation_token(json.get('email'))
             send_email(json['email'], "Email Confirmation Code", token)
-            # confirm_url = url_for('user.confirm_email', token=token, _external=True)
-            # send_email()
 
             AccountHandler.sign_in(json)
             return jsonify("Email confirmation has been sent."), HttpStatus.OK.value
