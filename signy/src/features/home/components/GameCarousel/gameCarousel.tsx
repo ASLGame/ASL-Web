@@ -11,7 +11,9 @@ interface GameCarouselProps {}
 
 const GameCarousel: FunctionComponent<GameCarouselProps> = () => {
   const featuredGames = useSelector(selectFeaturedGames)!;
-  const [currentFeaturedGameName, setCurrentFeaturedGameName] = useState("");
+  const [currentFeaturedGameName, setCurrentFeaturedGameName] = useState(
+    featuredGames[0].name
+  );
 
   const renderCarouselGames = (featuredGames: Array<Game>) => {
     return featuredGames.map((game) => {
@@ -39,9 +41,7 @@ const GameCarousel: FunctionComponent<GameCarouselProps> = () => {
         stopOnHover={true}
         showThumbs={false}
         showStatus={true}
-        onChange={(e, item) =>
-          setCurrentFeaturedGameName(featuredGames[e].name)
-        }
+        onChange={(e) => setCurrentFeaturedGameName(featuredGames[e].name)}
       >
         {renderCarouselGames(featuredGames)}
       </Carousel>
