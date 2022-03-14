@@ -88,7 +88,7 @@ export function SignUp() {
             <h1 className={styles.h1}>Sign Up</h1>
           </div>
           <form className={styles.form}>
-            <label className={styles.label}>Firstname</label>
+            <label className={styles.label}>First Name</label>
             <input
               className={styles.input}
               type="text"
