@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { signinAsync, setCurrentUser, selectSignIn } from "./signinSlice";
+import { signinAsync, selectSignIn } from "./signinSlice";
 import styles from "./signin.module.css";
 import {Button } from "../../components/Button.styled"
 
@@ -39,7 +39,7 @@ export function SignIn() {
             <a><Link to="/forgotpassword">Forgot Password?</Link></a>
           </div>
           <div className={styles.button_container}>
-            <Button onClick={() => console.log(username, password)}>Sign In</Button>
+            <Button onClick={() => dispatch(signinAsync({username: username, password: password}))}>Sign In</Button>
           </div>
         </div>
       </div>

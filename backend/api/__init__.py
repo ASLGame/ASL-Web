@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_mail import Mail
 from flask_cors import CORS
 from enum import IntEnum
 from flask_jwt_extended import JWTManager
@@ -10,6 +11,13 @@ app = Flask("Signy")
 config = load_config()
 app.config['CORS_HEADER'] = 'Content-type'
 app.config['SECRET_KEY'] = config.secret_key
+app.config['SECRET_SALT'] = config.secret_salt
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = config.mail_username
+app.config['MAIL_PASSWORD'] = config.mail_password
 
 # Database connection.
 DB_URI = f'postgresql://{config.name}:{config.password}@{config.host}:5432/{config.database}'
@@ -18,7 +26,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 jwt = JWTManager(app)
-
+mail = Mail(app)
 CORS(app, support_credentials=True)
 
 class HttpStatus(IntEnum):
