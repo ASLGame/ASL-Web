@@ -22,4 +22,17 @@ def get_update_delete_account_by_id(uid):
     elif request.method == 'DELETE':
         return AccountHandler.delete_account(uid)
     
+@app.route("/signy/accounts/signin", methods=['POST'])
+def sign_in():
+    if request.method == 'POST':
+        return AccountHandler.sign_in(request.json)
 
+@app.route("/signy/accounts/signup", methods=['POST'])
+def sign_up():
+    if request.method == 'POST':
+        return AccountHandler.sign_up(request.json)
+
+@app.route("/signy/confirm/<string:token>", methods=['GET'])
+def confirm(token):
+    if request.method == 'GET':
+        return AccountHandler.confirm_email(token)
