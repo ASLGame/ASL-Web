@@ -21,8 +21,6 @@ class GameDao:
     
     @staticmethod
     def get_game_by_id(gid):
-        gamez = game.query.get(gid)
-        print(gamez.gameAssets)
         return game.query.get(gid)
 
     @staticmethod
