@@ -100,3 +100,12 @@ class ScoreHandler:
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
+    def get_latest_played(uid):
+        try:
+            score_dao = scoreDAO.get_latest_played(uid)
+            result = []
+            for s in score_dao:
+                result.append(dict(s))
+            return jsonify(result), HttpStatus.OK.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value

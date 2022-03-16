@@ -4,12 +4,17 @@ import { ProfilePicture } from "./components/profilePicture/ProfilePicture";
 import { LastPlayed } from "./components/lastPlayed/LastPlayed";
 import { useEffect, useState } from "react";
 import { selectUser } from "../signin/signinSlice";
+import { lastestPlayedAsync, selectLatestPlayed } from "./profileSlice";
 
 export function Profile() {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser)!;
   const [profileImage, setProfileImage] = useState<string>("");
   const [imageActive, setImageActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch(lastestPlayedAsync(user.account_id!))
+}, [])
 
   return (
     <section className={styles.container}>

@@ -1,12 +1,14 @@
 import { configureStore, ThunkAction, Action, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
 import signinReducer from "../features/signin/signinSlice";
+import latestPlayedReducer from "../features/profile/profileSlice";
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
 
 const reducers = combineReducers({
   counter: counterReducer,
     signin: signinReducer,
+  latestPlayed: latestPlayedReducer
 })
 
 
