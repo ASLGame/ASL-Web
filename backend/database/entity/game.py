@@ -1,6 +1,7 @@
 from api import db
 from sqlalchemy import Column, DateTime, Integer, Text, text, ForeignKey
 from sqlalchemy.orm import relationship
+from .game_asset import GameAsset
 
 class Game(db.Model):
 
@@ -15,3 +16,4 @@ class Game(db.Model):
     bank_id = Column(ForeignKey('Bank.id'), nullable=False)
 
     bank = relationship('Bank')
+    gameAssets = relationship(GameAsset, back_populates='game')

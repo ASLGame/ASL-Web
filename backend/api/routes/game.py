@@ -18,3 +18,13 @@ def get_game_by_id(gid):
         return GameHandler.delete_game(gid)
     elif request.method == 'PUT':
         return GameHandler.update_game(gid, request.json)
+
+@app.route("/signy/game/newest-game", methods=['GET'])
+def get_newest_game():
+    if request.method == 'GET':
+        return GameHandler.get_newest_game()
+
+@app.route("/signy/game/featured-games", methods=['GET'])
+def get_featured_games():
+    if request.method == 'GET':
+        return GameHandler.get_featured_games()

@@ -1,21 +1,28 @@
-import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import {
+  configureStore,
+  ThunkAction,
+  Action,
+  combineReducers,
+} from "@reduxjs/toolkit";
+import counterReducer from "../features/counter/counterSlice";
 import signinReducer from "../features/signin/signinSlice";
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage';
+import homeReducer from "../features/home/homeSlice";
+
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 const reducers = combineReducers({
   counter: counterReducer,
-    signin: signinReducer,
-})
+  signin: signinReducer,
+  home: homeReducer,
+});
 
-
-const persistConfig={
+const persistConfig = {
   key: "root",
   storage,
-}
+};
 
-const persistedReducer = persistReducer(persistConfig, reducers)
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
   reducer: persistedReducer,
