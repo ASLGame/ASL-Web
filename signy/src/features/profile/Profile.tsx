@@ -1,10 +1,13 @@
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import styles from "./profile.module.css";
 import { ProfilePicture } from "./components/profilePicture/ProfilePicture";
-import { ChangeEvent, useState } from "react";
+import { LastPlayed } from "./components/lastPlayed/LastPlayed";
+import { useEffect, useState } from "react";
+import { selectUser } from "../signin/signinSlice";
 
 export function Profile() {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser)!;
   const [profileImage, setProfileImage] = useState<string>("");
   const [imageActive, setImageActive] = useState<boolean>(false);
 
@@ -17,6 +20,13 @@ export function Profile() {
           imageActive={imageActive}
           setImageActive={setImageActive}
         />
+        <div className={styles.user_info}>
+          <p>{user.account_username}</p>
+          <p>{user.account_email}</p>
+          <p>Joined: {user.account_created}</p>
+        </div>
+        <p className={styles.last_played}>Last Played</p>
+        <LastPlayed />
       </div>
       <div className={styles.right}></div>
     </section>

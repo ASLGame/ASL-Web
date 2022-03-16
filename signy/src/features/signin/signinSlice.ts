@@ -2,13 +2,23 @@
 signinSlice.ts encompasses every action and reducer with respect to authorization. 
 This means that both signin and signup methods will be found here.
 */
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 import { signup } from '../signup/signupAPI';
 import { signin } from "./signinAPI";
 
+interface User {
+    access_token?: string,
+    account_email?: string,
+    account_firstname?: string,
+    account_id?: number,
+    account_role?: string,
+    account_username?: string,
+    account_created?: string
+}
+
 export interface SignInState {
-    user: object;
+    user: User | undefined; //object
     isAuth: true | false
 }
 
@@ -17,7 +27,7 @@ export interface AuthError {
 }
 
 const initialState: SignInState = {
-    user: {},
+    user: undefined,
     isAuth: false,
 }
 
@@ -40,11 +50,7 @@ export const signupAsync = createAsyncThunk(
 export const signinSlice = createSlice({
     name: 'signin',
     initialState,
-    reducers: {
-        setCurrentUser: (state, action: PayloadAction<object>) => {
-            state.user = action.payload
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(signinAsync.rejected, (state, action) => {
             console.log(action.error);
@@ -68,5 +74,6 @@ export const signinSlice = createSlice({
 
 //Selecter allows us to select a value of the state
 export const selectSignIn = (state: RootState) => state.signin.isAuth;
+export const selectUser = (state: RootState) => state.signin.user;
 
 export default signinSlice.reducer;

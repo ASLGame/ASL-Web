@@ -2,12 +2,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
   width: 237px;
   height: 237px;
+  margin-top: 60px;
   border-radius: 50%;
   background: #ffffff;
   border: 8px solid var(--dark_purple);
+  flex-shrink: 0;
 }
 
 .image {
