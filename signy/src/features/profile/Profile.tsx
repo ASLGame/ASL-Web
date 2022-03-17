@@ -5,6 +5,7 @@ import { LastPlayed } from "./components/lastPlayed/LastPlayed";
 import { useEffect, useState } from "react";
 import { selectUser } from "../signin/signinSlice";
 import { lastestPlayedAsync, selectLatestPlayed } from "./profileSlice";
+import { TabMenu } from "./components/tabMenu/TabMenu";
 
 export function Profile() {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ export function Profile() {
 
   return (
     <section className={styles.container}>
-      <div className={styles.left}>
+       <div className={styles.left}>
         <ProfilePicture
           profileImage={profileImage}
           setProfileImage={setProfileImage}
@@ -33,7 +34,9 @@ export function Profile() {
         <p className={styles.last_played}>Last Played</p>
         <LastPlayed />
       </div>
-      <div className={styles.right}></div>
+      <div className={styles.right}>
+        <TabMenu />
+      </div>
     </section>
   );
 }

@@ -11,10 +11,12 @@ interface User {
     access_token?: string,
     account_email?: string,
     account_firstname?: string,
+    account_lastname?: string,
     account_id?: number,
     account_role?: string,
     account_username?: string,
-    account_created?: string
+    account_created?: string,
+    account_dob?: string
 }
 
 export interface SignInState {
