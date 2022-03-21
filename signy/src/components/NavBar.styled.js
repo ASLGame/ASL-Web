@@ -20,7 +20,7 @@ export const Theme = {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    a { color: black; text-decoration: none; };
+    a { color: black; text-decoration: none; font-weight: bold;};
     background-image: linear-gradient(to right, var(--pinkred), var(--pink))`;
   
   export const Brand = styled.a`
