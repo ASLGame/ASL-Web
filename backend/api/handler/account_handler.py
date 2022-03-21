@@ -1,4 +1,5 @@
 from datetime import timedelta
+from ntpath import join
 from database.dao import accountDAO
 from flask import jsonify
 from api import HttpStatus, app
@@ -169,16 +170,21 @@ class AccountHandler:
             if account_dao:
                 return jsonify(account_dao), HttpStatus.OK.value
             else:
-                return jsonify("Account not found"), HttpStatus.NOT_FOUND.value
+                return jsonify("Account not found/Could not edit information"), HttpStatus.NOT_FOUND.value
         except Exception as e:
              return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
     def change_password(uid, json):
         try:
-            account_dao = accountDAO.change_password(uid,json)
-            if account_dao:
-                return jsonify(account_dao), HttpStatus.OK.value
+            acc = accountDAO.get_account_id(uid)
+            acc = sql_to_dict(acc)
+            if(sha256.verify(json['currentPassword'], acc['password'])):
+                account_dao = accountDAO.change_password(uid,json)
+                if account_dao:
+                    return jsonify(account_dao), HttpStatus.OK.value
+                else:
+                    return jsonify("Could not change password"), HttpStatus.NOT_FOUND.value
             else:
-                return jsonify("Account not found"), HttpStatus.NOT_FOUND.value
+                return jsonify("Password did not match with current password"), HttpStatus.BAD_REQUEST.value
         except Exception as e:
              return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
