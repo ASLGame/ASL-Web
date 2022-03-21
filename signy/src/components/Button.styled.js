@@ -20,8 +20,6 @@ export const ButtonProfile = styled.button`
   box-sizing: border-box;
   border-radius: 23px;
   width: 50%;
-  padding-left: 20%;
-  padding-right: 20%;
   cursor: pointer;
   &:hover {
     opacity: 0.8;
@@ -32,6 +30,23 @@ export const ButtonProfile = styled.button`
   align-self: center;
   font-weight: 500;
   font-size: 20px;
+  background-color: var(--dark_purple);
+`;
+
+export const ButtonPopUp = styled.button`
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  border-radius: 23px;
+  width: 20%;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+    trasnform: scale(0.8);
+  }
+  color: var(--white);
+  font-weight: 500;
+  font-size: 20px;
+  float: right;
   background-color: var(--dark_purple);
 `;
 

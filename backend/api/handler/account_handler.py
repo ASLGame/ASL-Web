@@ -162,3 +162,23 @@ class AccountHandler:
     def generate_confirmation_token(email):
                 serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
                 return serializer.dumps(email, salt=app.config['SECRET_SALT'])
+
+    def edit_profile(uid, json):
+        try:
+            account_dao = accountDAO.edit_profile(uid,json)
+            if account_dao:
+                return jsonify(account_dao), HttpStatus.OK.value
+            else:
+                return jsonify("Account not found"), HttpStatus.NOT_FOUND.value
+        except Exception as e:
+             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def change_password(uid, json):
+        try:
+            account_dao = accountDAO.change_password(uid,json)
+            if account_dao:
+                return jsonify(account_dao), HttpStatus.OK.value
+            else:
+                return jsonify("Account not found"), HttpStatus.NOT_FOUND.value
+        except Exception as e:
+             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value

@@ -36,3 +36,13 @@ def sign_up():
 def confirm(token):
     if request.method == 'GET':
         return AccountHandler.confirm_email(token)
+
+@app.route("/signy/accounts/edit/profile/<int:uid>", methods=['PUT'])
+def edit_profile(uid):
+    if request.method == 'PUT':
+        return AccountHandler.edit_profile(uid, request.json)
+
+@app.route("/signy/accounts/edit/password/<int:uid>", methods=['PUT'])
+def change_password(uid):
+    if request.method == 'PUT':
+        return AccountHandler.change_password(uid, request.json)

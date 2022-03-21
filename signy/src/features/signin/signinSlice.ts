@@ -2,12 +2,13 @@
 signinSlice.ts encompasses every action and reducer with respect to authorization. 
 This means that both signin and signup methods will be found here.
 */
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
+import { userChanges } from '../profile/components/tabMenu/components/editProfile/EditProfile';
 import { signup } from '../signup/signupAPI';
 import { signin } from "./signinAPI";
 
-interface User {
+export interface User {
     access_token?: string,
     account_email?: string,
     account_firstname?: string,
@@ -21,7 +22,8 @@ interface User {
 
 export interface SignInState {
     user: User | undefined; //object
-    isAuth: true | false
+    isAuth: true | false,
+    userLoading: string
 }
 
 export interface AuthError {
@@ -31,6 +33,7 @@ export interface AuthError {
 const initialState: SignInState = {
     user: undefined,
     isAuth: false,
+    userLoading: "idle"
 }
 
 export const signinAsync = createAsyncThunk(
@@ -52,7 +55,13 @@ export const signupAsync = createAsyncThunk(
 export const signinSlice = createSlice({
     name: 'signin',
     initialState,
-    reducers: {},
+    reducers: {
+        saveChanges: (state, action: PayloadAction<userChanges>) => {
+            state.user!.account_firstname = action.payload.first_name;
+            state.user!.account_lastname = action.payload.last_name;
+            state.user!.account_dob = action.payload.DOB;
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(signinAsync.rejected, (state, action) => {
             console.log(action.error);
@@ -72,7 +81,7 @@ export const signinSlice = createSlice({
 })
 
 //Export actions
-// export const { setCurrentUser } = signinSlice.actions;
+export const { saveChanges } = signinSlice.actions;
 
 //Selecter allows us to select a value of the state
 export const selectSignIn = (state: RootState) => state.signin.isAuth;
