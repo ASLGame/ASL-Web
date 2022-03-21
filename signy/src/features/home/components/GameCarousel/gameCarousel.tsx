@@ -33,7 +33,7 @@ const GameCarousel: FunctionComponent<GameCarouselProps> = () => {
     });
   };
 
-  if (featuredGamesState !== "loading") {
+  if (featuredGamesState !== "loading" && featuredGames) {
     return (
       <div className={styles.carouselContainer}>
         <h2 className={styles.gameName}>{currentFeaturedGameName}</h2>
