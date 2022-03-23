@@ -29,13 +29,17 @@ class ScoreDAO:
     def get_user_game_scores(json):
         return db.session.query(score).filter(score.account_id == json['account_id'], score.game_id == json['game_id'])
     
-    @staticmethod # Pull latest 5 games played plus the score for a User
-    def get_latest_played(uid):
-        t = text('''SELECT score, name, date_achieved
+    @staticmethod # Pull latest games played plus the score for a User (can be limited with the use of the limit variable)
+    def get_latest_played(uid, limit):
+        op_limit = ""
+        if(limit > 0):
+            op_limit = "limit({})".format(limit)
+        
+        t = text('''SELECT score, name, date_achieved, "Score".id
                 FROM "Score"
                 inner join "Game" G
                 on "Score".game_id = G.id and "Score".account_id = {}
-                order by date_achieved desc limit(5)'''.format(uid)
+                order by date_achieved desc {}'''.format(uid, op_limit)
             )
         result = db.session.execute(t)
         return result
