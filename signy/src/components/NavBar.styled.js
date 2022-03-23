@@ -6,22 +6,23 @@ export const Theme = {
       dark: `#24292e`,
       light: `#EEEEEE`,
       red: `#ff5851`,
+      purple: `#4D4CAC`,
     },
     fonts: {
       body: `IBM Plex Sans, sans-serif`,
-      heading: `IBM Plex Sans, sans-serif`,
+      heading: `Montserrat`,
     }
   }
   
   export const Navbar = styled.nav`
-    background: ${Theme.colors.dark};
+    background: ${Theme.colors.purple};
     font-family: ${Theme.fonts.heading};
+    font-style: normal;
     color: ${Theme.colors.light};
     display: flex;
     align-items: center;
     justify-content: space-between;
-    a { color: black; text-decoration: none; font-weight: bold;};
-    background-image: linear-gradient(to right, var(--pinkred), var(--pink))`;
+    a { color: white; text-decoration: none; font-weight: bold;}`;
   
   export const Brand = styled.a`
     font-weight: bold;
@@ -32,7 +33,18 @@ export const Theme = {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
+    align-items: center;
+    justify-content: space-between;
     -webkit-overflow-scrolling: touch;`;
+
+  export const Ur = styled.ul`
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  overflow-x: auto;
+  align-items: center;
+  justify-content: space-evenly;
+  -webkit-overflow-scrolling: touch;`;
   
   export const Li = styled.li`
     flex: 0 0 auto;

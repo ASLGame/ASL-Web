@@ -13,6 +13,7 @@ const navigation = {
     { name: "Home", to: "/home" },
     { name: "Sign-In", to: "/signin" },
     { name: "Sign-Up", to: "/signup" },
+    { name: "...", to: "/" },
   ]
 }
 
