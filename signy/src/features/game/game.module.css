@@ -40,22 +40,6 @@
   align-self: center;
 }
 
-.webcamContainer {
-  display: flex;
-  background-color: var(--gray);
-  align-items: center;
-  justify-content: center;
-  border-radius: 20px;
-  flex-direction: column;
-}
-
-.webcam {
-  width: 95%;
-  height: 95%;
-  margin-bottom: 2%;
-  border-radius: 100px;
-}
-
 .gameboard {
   margin-top: 20%;
   display: flex;

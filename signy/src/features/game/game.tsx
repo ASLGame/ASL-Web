@@ -2,13 +2,18 @@ import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import styles from "./game.module.css";
 import Webcam from "react-webcam";
 import { Button } from "../../components/Button.styled";
+import { loadModel } from "./components/Camera/model";
+import { Models } from "./types";
+import Camera from "./components/Camera/Camera";
 
-interface GameProps {}
-
-const Game: FunctionComponent<GameProps> = () => {
-  const cameraRef = useRef(null);
+const Game: FunctionComponent = () => {
   const [time, setTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
+  const [models, setModels] = useState<Models>({
+    L_Model: undefined,
+    R_Model: undefined,
+  });
+  // const [modelLoading, setModelLoading] = useState("loading"); put in redux.
 
   const renderLetters = (word: string) => {
     const arrLetter = word.split("");
@@ -33,6 +38,9 @@ const Game: FunctionComponent<GameProps> = () => {
   };
 
   useEffect(() => {
+    loadModel().then((models) => {
+      setModels(models);
+    });
     let interval: NodeJS.Timeout;
     if (isActive) {
       interval = setInterval(() => {
@@ -49,17 +57,11 @@ const Game: FunctionComponent<GameProps> = () => {
       <div className={styles.background + " " + styles.layer1}>
         <section className={styles.container}>
           <div className={styles.left}>
+            <button onClick={() => console.log(models)}> CLICK ME</button>
             <h1 className={styles.title}> Spelling Hands</h1>
             <div className={styles.webcamContainer}>
               <p> {time} </p>
-              <Webcam
-                className={styles.webcam}
-                videoConstraints={{ facingMode: "user" }}
-                audio={false}
-                screenshotFormat="image/jpeg"
-                mirrored={true}
-                ref={cameraRef}
-              ></Webcam>
+              <Camera models={models}></Camera>
             </div>
             <div className={styles.word}>
               <h3>Your next word is: caca</h3>
