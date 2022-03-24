@@ -5,7 +5,8 @@ import { getLatestPlayed, getScores } from './profileAPI';
 export interface GameScore {
     date_achieved: string,
     name: string,
-    score: number
+    score: number,
+    id: number
 }
 
 export interface UserProfile {
