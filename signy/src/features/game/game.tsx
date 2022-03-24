@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import styles from "./game.module.css";
-import Webcam from "react-webcam";
 import { Button } from "../../components/Button.styled";
 import { loadModel } from "./components/Camera/model";
 import { Models } from "./types";

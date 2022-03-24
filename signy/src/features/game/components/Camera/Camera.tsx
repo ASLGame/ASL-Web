@@ -1,10 +1,10 @@
 import { FunctionComponent, useRef, useEffect } from "react";
 import { Models } from "../../types";
 import styles from "./Camera.module.css";
-import { Hands } from "@mediapipe/hands";
+import * as Hands from "@mediapipe/hands";
 import Webcam from "react-webcam";
 import * as Cam from "@mediapipe/camera_utils";
-// import {drawConnectors} from '@mediapipe/drawing_utils/index';
+import {drawConnectors, drawLandmarks} from '@mediapipe/drawing_utils';
 // import { NewonResults } from './model';
 
 // // eslint-disable-next-line
@@ -14,43 +14,94 @@ interface CameraProps {
   models: Models;
 }
 
+
 const Camera: FunctionComponent<CameraProps> = (props) => {
   const { R_Model, L_Model } = props.models;
-  const webcamRef = useRef(null);
-  const canvasRef = useRef(null);
+  const webcamRef = useRef<Webcam>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   let camera = null;
 
-  // const onResults = NewonResults;
+  function onResults(results:any){
+    
+    console.log(results);
+    let width = 0;
+    let height = 0;
+    if (webcamRef.current !== null && webcamRef.current.video !== null) {
+       width = webcamRef.current.video.videoWidth
+       height = webcamRef.current.video.videoHeight;
+    
+    }
+    
+    if(canvasRef.current !== null){
+      canvasRef.current.width = width;
+      canvasRef.current.height = height;
+    }
+    
 
-  // const videoWidth = webcamReference.current.video.videoWidth;
-  // const videoHeight = webcamReference.current.video.videoHeight;
+    const canvasElement: HTMLCanvasElement | null = canvasRef.current;
+    const canvasCtx: CanvasRenderingContext2D | null | undefined = canvasElement?.getContext("2d");
+
+    canvasCtx?.save();
+    canvasCtx?.clearRect(0, 0, canvasElement?.width!, canvasElement?.height!);
+
+    canvasCtx?.drawImage(
+      results.image,
+      0,
+      0,
+      canvasElement?.width!,
+      canvasElement?.height!
+    )
+
+    if(results.multiHandLandmarks && results.multiHandedness){
+      for(let index = 0; index < results.multiHandLandmarks.length; index++){
+        const classification = results.multiHandedness[index];
+        const isRightHand = classification.label === 'Right';
+        const landmarks = results.multiHandLandmarks[index];
+        
+        //@ts-ignore
+        drawConnectors(canvasCtx!, landmarks, Hands.HAND_CONNECTIONS,{
+          color: "#00CC00",
+          lineWidth: 5,
+        });
+        // @ts-ignore
+        drawLandmarks(canvasCtx, landmarks, {
+          color: "#FF0000",
+          lineWidth: 2,
+        });
+      }
+    }
+    canvasCtx?.restore();
+  }
 
   useEffect(() => {
-    const hands: Hands = new Hands({
+    console.log('hello')
+    const hands: Hands.Hands = new Hands.Hands({
       locateFile: (file: string) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.1/${file}`;
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
       },
     });
 
     hands.setOptions({
+      modelComplexity: 1,
       selfieMode: true,
       maxNumHands: 1,
       minDetectionConfidence: 0.75,
       minTrackingConfidence: 0.5,
     });
-
-    hands.onResults(() => console.log("hiya"));
-
+    hands.onResults(onResults);
     if (
-      //   webcamRef !== null &&
+      webcamRef !== null &&
       typeof webcamRef.current !== "undefined" &&
       webcamRef.current !== null
     ) {
-      //@ts-ignore
-      camera = new Cam.Camera(webcamRef.current.video, {
+      camera = new Cam.Camera(webcamRef.current.video!, {
         onFrame: async () => {
-          //@ts-ignore
-          await hands.send({ image: webcamRef.current.video });
+          if (
+            webcamRef !== null &&
+            webcamRef.current !== null
+          ) {
+          await hands.send({ image: webcamRef.current.video! });
+          }
         },
         width: 1280,
         height: 720,
@@ -69,7 +120,9 @@ const Camera: FunctionComponent<CameraProps> = (props) => {
         mirrored={true}
         ref={webcamRef}
       ></Webcam>
-      <canvas className="canvas" ref={canvasRef} />
+      <canvas className={styles.canvas} ref={canvasRef} >
+        hello
+        </canvas>
     </div>
   );
 };
