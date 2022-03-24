@@ -30,51 +30,51 @@ export async function loadModel() {
 //   L_model = result.L_Model;
 // });
 
-// function calc_landmark_list(landmarks: any) {
-//   const width: number | undefined = myCanvasElement?.width;
-//   const height: number | undefined = myCanvasElement?.height;
+export function calc_landmark_list(landmarks: any, width: number, height: number) {
+  // const width: number | undefined = myCanvasElement?.width;
+  // const height: number | undefined = myCanvasElement?.height;
 
-//   let landmark_points: any[] = [];
+  let landmark_points: any[] = [];
 
-//   landmarks.forEach((value: { x: number; y: number }) => {
-//     let landmark_x = Math.min(width - 1, value.x * width);
-//     let landmark_y = Math.min(height - 1, value.y * height);
-//     landmark_points.push(landmark_x);
-//     landmark_points.push(landmark_y);
-//   });
-//   //console.log('Calc_landmark', landmark_points);
-//   return landmark_points;
-// }
+  landmarks.forEach((value: { x: number; y: number }) => {
+    let landmark_x = Math.min(width - 1, value.x * width);
+    let landmark_y = Math.min(height - 1, value.y * height);
+    landmark_points.push(landmark_x);
+    landmark_points.push(landmark_y);
+  });
+  //console.log('Calc_landmark', landmark_points);
+  return landmark_points;
+}
 
-// function pre_process_landmarks(landmark_list: any[]) {
-//   let base_x;
-//   let base_y;
+export function pre_process_landmarks(landmark_list: any[]) {
+  let base_x;
+  let base_y;
 
-//   for (let i = 0; i < landmark_list.length; i += 2) {
-//     if (i === 0) {
-//       base_x = landmark_list[i];
-//       base_y = landmark_list[i + 1];
-//     }
+  for (let i = 0; i < landmark_list.length; i += 2) {
+    if (i === 0) {
+      base_x = landmark_list[i];
+      base_y = landmark_list[i + 1];
+    }
 
-//     landmark_list[i] = landmark_list[i] - base_x;
-//     landmark_list[i + 1] = landmark_list[i + 1] - base_y;
-//   }
+    landmark_list[i] = landmark_list[i] - base_x;
+    landmark_list[i + 1] = landmark_list[i + 1] - base_y;
+  }
 
-//   const maxValue = Math.max.apply(null, landmark_list.map(Math.abs));
+  const maxValue = Math.max.apply(null, landmark_list.map(Math.abs));
 
-//   //console.log('maxValue', maxValue);
-//   function normalize(n: number) {
-//     return n / maxValue;
-//   }
+  //console.log('maxValue', maxValue);
+  function normalize(n: number) {
+    return n / maxValue;
+  }
 
-//   landmark_list = landmark_list.map(function (value) {
-//     return normalize(value);
-//   });
+  landmark_list = landmark_list.map(function (value) {
+    return normalize(value);
+  });
 
-//   //console.log('pre_process', landmark_list);
-//   console.log("");
-//   return landmark_list;
-// }
+  //console.log('pre_process', landmark_list);
+  console.log("");
+  return landmark_list;
+}
 
 // //--------------------------------------
 
@@ -92,26 +92,26 @@ export async function loadModel() {
 //       const isRightHand = classification.label === "Right";
 //       const landmarks = result.multiHandLandmarks[index];
 
-//       //Preprocess Landmarks
-//       let landmark_list = calc_landmark_list(landmarks);
-//       landmark_list = pre_process_landmarks(landmark_list);
+      //Preprocess Landmarks
+      // let landmark_list = calc_landmark_list(landmarks);
+      // landmark_list = pre_process_landmarks(landmark_list);
 
-//       //@ts-ignore
-//       landmark_list = tf.tensor2d([landmark_list]);
+      // //@ts-ignore
+      // landmark_list = tf.tensor2d([landmark_list]);
 
-//       let prediction;
-//       if (isRightHand) {
-//         prediction = R_model?.predict(landmark_list);
-//       } else {
-//         prediction = L_model?.predict(landmark_list);
-//       }
+      // let prediction;
+      // if (isRightHand) {
+      //   prediction = R_model?.predict(landmark_list);
+      // } else {
+      //   prediction = L_model?.predict(landmark_list);
+      // }
 
-//       const scores = prediction.arraySync()[0];
+      // const scores = prediction.arraySync()[0];
 
-//       const maxScore = prediction.max().arraySync();
-//       const maxScoreIndex = scores.indexOf(maxScore);
+      // const maxScore = prediction.max().arraySync();
+      // const maxScoreIndex = scores.indexOf(maxScore);
 
-//       console.log(maxScoreIndex);
+      // console.log(maxScoreIndex);
 
 //       // eslint-disable-next-line
 //       // @ts-ignore
