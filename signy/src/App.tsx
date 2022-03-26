@@ -11,9 +11,8 @@ const navigation = {
   brand: { name: "Signy", to: "/" },
   links: [
     { name: "Home", to: "/home" },
-    { name: "Sign-In", to: "/signin" },
-    { name: "Sign-Up", to: "/signup" },
-    { name: "...", to: "/" },
+    { name: "Games", to: "/signin" },
+    { name: "Account", to: "/signup" },
   ]
 }
 

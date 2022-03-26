@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {Li, Brand, Navbar, Ul, Ur} from "./NavBar.styled.js"
+import {Li, Brand, Navbar, Ul, Ur, Dropdown, DropCont} from "./NavBar.styled.js"
 import {ReactComponent as Signy} from "./signy.svg"
 
 
@@ -17,7 +17,14 @@ const NavBar = (props: {
         </Ul>
         <Ur>
           <NavLinks />
+          <Dropdown>
+            <span>...</span>
+            <DropCont>
+              <p>Test</p>
+            </DropCont>
+          </Dropdown>
         </Ur>
+        <div />
     </Navbar>
   )
 };
