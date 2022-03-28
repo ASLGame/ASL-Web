@@ -40,7 +40,6 @@ export const Theme = {
 
   export const Dropdown = styled.ul`
     float: left;
-    
     overflow: hidden;`;
 
   export const DropCont = styled.ul`
@@ -52,9 +51,11 @@ export const Theme = {
   padding: 12px 16px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
-  ${Dropdown}:hover & {
-    display: block
-  }`;
+  a{color: black; display:block}`;
+
+  export const Input = styled.input`
+  background: ${Theme.colors.purple};
+  color: white`;
 
   export const Ur = styled.ul`
   display: flex;
