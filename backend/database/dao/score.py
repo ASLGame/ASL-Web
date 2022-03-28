@@ -1,5 +1,6 @@
 from ..entity import score
 from api import db
+from sqlalchemy import text
 
 
 class ScoreDAO:
@@ -27,6 +28,17 @@ class ScoreDAO:
     @staticmethod  # Pulls all scores tied to specific user and game (ex. All User 1 scores from Hangman)
     def get_user_game_scores(json):
         return db.session.query(score).filter(score.account_id == json['account_id'], score.game_id == json['game_id'])
+    
+    @staticmethod # Pull latest 5 games played plus the score for a User
+    def get_latest_played(uid):
+        t = text('''SELECT score, name, date_achieved
+                FROM "Score"
+                inner join "Game" G
+                on "Score".game_id = G.id and "Score".account_id = {}
+                order by date_achieved desc limit(5)'''.format(uid)
+            )
+        result = db.session.execute(t)
+        return result
 
     @staticmethod  # Pulls a score by its id
     def get_score_id(sid):
