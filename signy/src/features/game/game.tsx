@@ -1,18 +1,21 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import styles from "./game.module.css";
 import { Button } from "../../components/Button.styled";
-import { loadModel } from "./components/Camera/model";
-import { Models } from "./types";
-import Camera from "./components/Camera/Camera";
+import ModelCamera from "../../components/ModelCamera/ModelCamera";
+import { Alphabet } from "../../types/Models";
 
 const Game: FunctionComponent = () => {
   const [time, setTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  const [models, setModels] = useState<Models>({
-    L_Model: undefined,
-    R_Model: undefined,
-  });
-  // const [modelLoading, setModelLoading] = useState("loading"); put in redux.
+  let [isSpelledCorrectly, setIsSpelledCorrectly] = useState(false);
+  let [buffer, setBuffer] = useState<String[]>([]);
+  let [currentLetter, setCurrentLetter] = useState(
+    //@ts-ignore
+    Alphabet[Math.floor(Math.random() * 26)]
+  );
+  let [hasBufferEmptied, setHasBufferEmptied] = useState(false);
+  let [blockCheckingFlag, setBlockCheckingFlag] = useState(false);
+  const [lettersSpelled, setLettersSpelled] = useState<String[]>([]);
 
   const renderLetters = (word: string) => {
     const arrLetter = word.split("");
@@ -36,34 +39,64 @@ const Game: FunctionComponent = () => {
     );
   };
 
-  useEffect(() => {
-    loadModel().then((models) => {
-      setModels(models);
+  const isLetterCorrect = () => {
+    console.log(currentLetter);
+    let appearanceOfLetter = 0;
+    buffer.forEach((char) => {
+      if (char === currentLetter) {
+        appearanceOfLetter += 1;
+      }
     });
-    let interval: NodeJS.Timeout;
-    if (isActive) {
-      interval = setInterval(() => {
-        setTime((time) => parseFloat((time + 0.01).toFixed(2)));
-      }, 10);
-    } else if (!isActive && time !== 0) {
-      clearInterval(time);
+    if (appearanceOfLetter / 20 > 0.8) {
+      setIsSpelledCorrectly(true);
+      setBlockCheckingFlag(true);
     }
-    return () => clearInterval(interval);
-  }, [isActive, time]);
+    setIsSpelledCorrectly(false);
+  };
+
+  const emptyBuffer = () => {
+    setBuffer([]);
+    setHasBufferEmptied(true);
+  };
+
+  const updateBuffer = (value: String) => {
+    let bufferList = buffer;
+    console.log(isSpelledCorrectly);
+    console.log(blockCheckingFlag);
+    if (buffer.length === 20 && !blockCheckingFlag) {
+      isLetterCorrect();
+      bufferList.shift();
+      bufferList.push(value);
+      setBuffer(bufferList);
+      // call function to check if it's correct
+    } else {
+      bufferList.push(value);
+    }
+    console.log(buffer);
+  };
+
+  useEffect(() => {
+    if (buffer.length === 20) {
+      setBlockCheckingFlag(true);
+    }
+    if (isSpelledCorrectly) {
+      console.log(isSpelledCorrectly);
+      setLettersSpelled([...lettersSpelled, currentLetter]);
+      setBuffer([]);
+      //@ts-ignore
+      setCurrentLetter(Alphabet[Math.floor(Math.random() * 26)]);
+      setIsSpelledCorrectly(false);
+    }
+  }, [isSpelledCorrectly, lettersSpelled, currentLetter]);
 
   return (
     <>
       <div className={styles.background + " " + styles.layer1}>
         <section className={styles.container}>
           <div className={styles.left}>
-            <button onClick={() => console.log(models)}> CLICK ME</button>
-            <h1 className={styles.title}> Spelling Hands</h1>
-            <div className={styles.webcamContainer}>
-              <p> {time} </p>
-              <Camera models={models}></Camera>
-            </div>
+            <ModelCamera updateGameBuffer={updateBuffer}></ModelCamera>
             <div className={styles.word}>
-              <h3>Your next word is: caca</h3>
+              <h3>Your next letter is: {currentLetter}</h3>
             </div>
           </div>
           <div className={styles.right}>
@@ -92,6 +125,22 @@ const Game: FunctionComponent = () => {
               >
                 Next
               </Button>
+              <button
+                onClick={() => {
+                  //@ts-ignore
+                  setCurrentLetter(Alphabet[Math.floor(Math.random() * 26)]);
+                }}
+              >
+                CLICK
+              </button>
+              <button
+                onClick={() => {
+                  //@ts-ignore
+                  console.log(currentLetter);
+                }}
+              >
+                CONSOLE
+              </button>
             </div>
           </div>
         </section>
