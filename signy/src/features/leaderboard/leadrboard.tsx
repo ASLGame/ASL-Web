@@ -8,7 +8,6 @@ export function Leaderboard(){
             <h1>Leaderboards</h1>
             <div className={styles.tables}>
                 <ByGames />
-                <div />
             </div>
         </div>
         
