@@ -2,6 +2,7 @@ import logo from "./logo.svg";
 import { Counter } from "./features/counter/Counter";
 import  { SignIn }  from "./features/signin/SignIn";
 import { Profile } from "./features/profile/Profile";
+import { Leaderboard } from "./features/leaderboard/leadrboard";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { SignUp } from "./features/signup/SignUp";
@@ -21,6 +22,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
           </Routes>
         </header>
       </div>
