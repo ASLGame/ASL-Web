@@ -47,6 +47,7 @@ export const Theme = {
   border: solid ${Theme.colors.purple};
   display: none;
   color: black;
+  top: 92px;
   position: absolute;
   padding: 12px 16px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -54,7 +55,14 @@ export const Theme = {
   a{color: black; display:block}`;
 
   export const Input = styled.input`
+  align-items: center;
+  cursor: pointer;
+  justify-content: space-between;
   background: ${Theme.colors.purple};
+  border: 0;
+  box-shadow: 0;
+  border-radius: 0px;
+  font-size: 1.5em;
   color: white`;
 
   export const Ur = styled.ul`
