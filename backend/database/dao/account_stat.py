@@ -14,7 +14,7 @@ class AccountStatDao:
 
     @staticmethod
     def create_account_stat(json):
-        new_account_stat = account_stat(account_id = json['account_id'], value = json['value'], stats_id = json["stats_id"])
+        new_account_stat = account_stat(account_id = json['account_id'], value = json['value'], stats_id = json["stats_id"], date_created = datetime.utcnow(), date_updated = datetime.utcnow())
         db.session.add(new_account_stat)
         db.session.commit()
 
@@ -28,7 +28,7 @@ class AccountStatDao:
 
     @staticmethod
     def update_achieved_account_stat(id, json):
-        update_account_stat = db.session.query(account_stat).where(account_stat.id == id).update({ "value": json['value'], "has_achieved": json['has_achieved'], "date_achieved": datetime.utcnow(), "date_updated": datetime.utcnow()})
+        update_account_stat = db.session.query(account_stat).where(account_stat.id == id).update({ "value": json['value'], "date_updated": datetime.utcnow()})
         db.session.commit()
         return update_account_stat
     

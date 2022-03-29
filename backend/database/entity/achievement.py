@@ -14,5 +14,5 @@ class Achievement(db.Model):
     description = Column(Text, nullable=False)
     date_created = Column(DateTime(True), nullable=False)
 
-    account_stats = relationship('Account_Stats')
+    account_stats = relationship('AccountStat')
     game = relationship('Game')

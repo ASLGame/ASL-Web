@@ -9,10 +9,13 @@ from .time_based_achievement import TimeBasedAchievement
 from .word import Word
 from .account import Account
 from .account_stat import AccountStat
-
+from .account_achievements import AccountAchievements
+from .achievement import Achievement
 
 account_stat = AccountStat
 account = Account
+account_achievements = AccountAchievements
+achievement = Achievement
 achievement_type = AchievementType
 bank = Bank
 game_achievement = GameAchievement
