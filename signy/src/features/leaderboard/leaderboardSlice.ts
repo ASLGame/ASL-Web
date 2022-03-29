@@ -9,7 +9,7 @@ export interface Score {
     id: number,
     score: number,
     username: string,
-    name: string
+    name: string | undefined
 }
 
 export interface AllScores {
@@ -47,6 +47,8 @@ export const getscoresSlice = createSlice({
         })
     }
 })
+
+
 
 export const selectScores = (state: RootState) => state.scores.scores
 export const scoreState = (state: RootState) => state.scores.state

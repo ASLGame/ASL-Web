@@ -1,6 +1,3 @@
-import { Dictionary } from "@reduxjs/toolkit"
-import { getscoresAsync } from "../../leaderboardSlice";
-import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks"; 
 import { selectScores, scoreState } from "../../leaderboardSlice";
 import styles from "../GamesTable.module.css"
@@ -26,6 +23,7 @@ export function Overall(){
           });
         };
         if (state !== "loading") {
+          
             return (
               <div style={{width: "100%"}}>
                 <div className={styles.row}>

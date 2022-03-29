@@ -15,3 +15,17 @@ export const getscores = async () =>  {
         return response;
     }
 }
+
+export const byGames = async (gid: number) =>  {
+    const response = await fetch(url + `signy/scores/highscores/${gid}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    if (response.ok) {
+        return response.json();
+    } else { 
+        return response;
+    }
+}

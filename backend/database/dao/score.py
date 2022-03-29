@@ -10,7 +10,10 @@ class ScoreDAO:
         return score.query.all()
 
     def get_high_scores():
-        return db.session.query(score, account.username, game.name).filter(score.account_id == account.id).filter(score.game_id == game.id).order_by(score.score.desc()).limit(10)
+        return db.session.query(score, account.username, game.name).filter(score.account_id == account.id).filter(score.game_id == game.id).order_by(score.score.desc())
+        
+    def get_high_scores_by_game(gid):
+        return db.session.query(score, account.username).filter(score.account_id == account.id).filter(gid == score.game_id).order_by(score.score.desc())
 
     @staticmethod  # Creates new score
     def create_score(json):
