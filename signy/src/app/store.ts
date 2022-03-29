@@ -8,6 +8,7 @@ import counterReducer from "../features/counter/counterSlice";
 import signinReducer from "../features/signin/signinSlice";
 import homeReducer from "../features/home/homeSlice";
 import userProfile from "../features/profile/profileSlice";
+import gamesReducer from "../features/games/gamesSlice";
 
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -16,7 +17,8 @@ const reducers = combineReducers({
   counter: counterReducer,
   signin: signinReducer,
   home: homeReducer,
-  userProfile: userProfile
+  userProfile: userProfile,
+  games: gamesReducer,
 });
 
 const persistConfig = {
