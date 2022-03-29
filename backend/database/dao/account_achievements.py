@@ -12,7 +12,7 @@ class AccountAchievementsDAO:
     def create_account_achievements(json):
         new_account_achievement = account_achievements(account_id=json['account_id'], 
                 achievement_id=json['achievement_id'], has_achieved=json['has_achieved'], 
-                date_achieved=json['date_achieved'], date_created=datetime.utcnow(), 
+                date_achieved=json.get('date_achieved'), date_created=datetime.utcnow(), 
                 date_updated=datetime.utcnow())
         db.session.add(new_account_achievement)
         db.session.commit()
@@ -20,9 +20,9 @@ class AccountAchievementsDAO:
     
     # Will not update date_created
     def update_account_achievements(aid, json):
-        get_account_achievement = db.session.query(account_achievements).where(account_achievements.id == aid).update(has_achieved=json['has_achieved'], 
-                date_achieved=json['date_achieved'], 
-                date_updated=datetime.utcnow())
+        get_account_achievement = db.session.query(account_achievements).where(account_achievements.id == aid).update({'has_achieved':json['has_achieved'], 
+                'date_achieved': json.get('date_achieved'), 
+                'date_updated': datetime.utcnow()})
         db.session.commit()
         return get_account_achievement
     

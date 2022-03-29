@@ -8,7 +8,11 @@ from .score import ScoreDAO
 from .bank import BankDao
 from .game_achievements import GameAchievementsDAO
 from .game_asset import GameAssetDAO
+from .account_achievements import AccountAchievementsDAO
+from .achievement import AchievementDAO
 
+accountAchievementsDao = AccountAchievementsDAO
+achievementDao = AchievementDAO
 bankDao = BankDao
 accountDAO = AccountDao
 gameDao = GameDao
