@@ -17,10 +17,12 @@ const ModelCamera: FunctionComponent<ModelCameraProps> = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    loadModel().then((models) => {
-      setModels(models);
-      setIsLoading(false);
-    });
+    if(isLoading){
+        loadModel().then((models) => {
+        setModels(models);
+        setIsLoading(false);
+      });
+    }
   });
 
   if (!isLoading) {
