@@ -4,12 +4,26 @@ This means that both signin and signup methods will be found here.
 */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
+import { userChanges } from '../profile/components/tabMenu/components/editProfile/EditProfile';
 import { signup } from '../signup/signupAPI';
 import { signin } from "./signinAPI";
 
+export interface User {
+    access_token?: string,
+    account_email?: string,
+    account_firstname?: string,
+    account_lastname?: string,
+    account_id?: number,
+    account_role?: string,
+    account_username?: string,
+    account_created?: string,
+    account_dob?: string
+}
+
 export interface SignInState {
-    user: object;
-    isAuth: true | false
+    user: User | undefined; //object
+    isAuth: true | false,
+    userLoading: string
 }
 
 export interface AuthError {
@@ -17,8 +31,9 @@ export interface AuthError {
 }
 
 const initialState: SignInState = {
-    user: {},
+    user: undefined,
     isAuth: false,
+    userLoading: "idle"
 }
 
 export const signinAsync = createAsyncThunk(
@@ -41,8 +56,10 @@ export const signinSlice = createSlice({
     name: 'signin',
     initialState,
     reducers: {
-        setCurrentUser: (state, action: PayloadAction<object>) => {
-            state.user = action.payload
+        saveChanges: (state, action: PayloadAction<userChanges>) => {
+            state.user!.account_firstname = action.payload.first_name;
+            state.user!.account_lastname = action.payload.last_name;
+            state.user!.account_dob = action.payload.DOB;
         }
     },
     extraReducers: (builder) => {
@@ -64,9 +81,10 @@ export const signinSlice = createSlice({
 })
 
 //Export actions
-// export const { setCurrentUser } = signinSlice.actions;
+export const { saveChanges } = signinSlice.actions;
 
 //Selecter allows us to select a value of the state
 export const selectSignIn = (state: RootState) => state.signin.isAuth;
+export const selectUser = (state: RootState) => state.signin.user;
 
 export default signinSlice.reducer;

@@ -8,6 +8,7 @@ import counterReducer from "../features/counter/counterSlice";
 import signinReducer from "../features/signin/signinSlice";
 import homeReducer from "../features/home/homeSlice";
 import gamesReducer from "../features/games/gamesSlice";
+import latestPlayedReducer from "../features/profile/profileSlice";
 
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   signin: signinReducer,
   home: homeReducer,
   games: gamesReducer,
+  latestPlayed: latestPlayedReducer
 });
 
 const persistConfig = {
@@ -28,6 +30,11 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
   reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoreActions: true,
+    }
+  })
 });
 
 export type AppDispatch = typeof store.dispatch;

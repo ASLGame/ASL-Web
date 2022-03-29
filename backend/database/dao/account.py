@@ -47,6 +47,17 @@ class AccountDao:
                                                                                     "date_updated": json['date_updated'], "role":json['role']})
         db.session.commit()
         return account_updated
+    
+    def edit_profile(uid, json):
+        account_updated = db.session.query(account).where(account.id == uid).update({"DOB": json['DOB'], "first_name":json['first_name'], "last_name":json['last_name']})
+        db.session.commit()
+        return account_updated
+
+    def change_password(uid, json):
+        hashed_password = sha256.hash(json['newPassword'])
+        account_updated = db.session.query(account).where(account.id == uid).update({"password": hashed_password})
+        db.session.commit()
+        return account_updated
 
     @staticmethod  # Updates account; doesn't update username nor date created
     def confirm_account(uid):
