@@ -10,7 +10,7 @@ export function Game1(){
 
     const allscores = () => {
         return scores!.map((score) => {
-          if(score.game_id === 2){
+          if(score.game_id === 1){
             return (
               <div key={score.date_achieved} style={{width: "100%"}} >
                 <div className={styles.row}>
@@ -49,7 +49,7 @@ export function Game2(){
 
     const allscores = () => {
         return scores!.map((score) => {
-          if(score.game_id === 3){
+          if(score.game_id === 2){
             return (
               <div key={score.date_achieved} style={{width: "100%"}} >
                 <div className={styles.row}>
