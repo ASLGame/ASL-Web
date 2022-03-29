@@ -39,3 +39,17 @@
     width: 80%;
     background-color: var(--gray);
   }
+
+  .row {
+    align-items: center;
+    border-bottom: 2px solid;
+    border-color: black;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .row_text{
+    margin-right: auto;
+    margin-left: 0px;
+  }

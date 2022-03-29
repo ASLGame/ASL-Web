@@ -1,4 +1,4 @@
-from ..entity import score
+from ..entity import score, account, game
 from api import db
 from sqlalchemy import text
 
@@ -8,6 +8,9 @@ class ScoreDAO:
     @staticmethod  # Pulls all the scores
     def get_all_scores():
         return score.query.all()
+
+    def get_high_scores():
+        return db.session.query(score, account.username, game.name).filter(score.account_id == account.id).filter(score.game_id == game.id).order_by(score.score.desc()).limit(10)
 
     @staticmethod  # Creates new score
     def create_score(json):
