@@ -5,9 +5,7 @@ import ModelCamera from "../../components/ModelCamera/ModelCamera";
 import { Alphabet } from "../../types/Models";
 
 const Game: FunctionComponent = () => {
-  const [time, setTime] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-  let [isSpelledCorrectly, setIsSpelledCorrectly] = useState(false);
+  
   const [buffer, setBuffer] = useState<String[]>([]);
   const [flag, setFlag] = useState(true);
   let [currentLetter, setCurrentLetter] = useState(
@@ -42,7 +40,7 @@ const Game: FunctionComponent = () => {
 
   const isLetterCorrect = () => {
     console.log('current letter', currentLetter);
-    //console.log('isSpellcorrectly', isSpelledCorrectly);
+    
     let appearanceOfLetter = 0;
     buffer.forEach((char) => {
       if (char === currentLetter) {
@@ -50,33 +48,18 @@ const Game: FunctionComponent = () => {
       }
     });
     if (appearanceOfLetter / 20 > 0.8) {
-      //setIsSpelledCorrectly(true);
+      
       return true
     }
-    //setIsSpelledCorrectly(false);
+    
     return false;
-  };
-
-  const emptyBuffer = () => {
-    setBuffer([]);
-    setHasBufferEmptied(true);
   };
 
   const updateBuffer = (value: String) => {
     let bufferList = buffer;
-    //console.log(isSpelledCorrectly);
-    //console.log(blockCheckingFlag);
+   
     if (buffer.length === 20 && !blockCheckingFlag) {
       
-      // let temp = isLetterCorrect()
-      // console.log(temp);
-      // if(temp){
-      //   setLettersSpelled([...lettersSpelled, currentLetter]);
-      //   setBuffer([]);
-      //   //@ts-ignore
-      //   console.log('this letter', currentLetter);
-        
-      // }
       bufferList.shift();
       bufferList.push(value);
       setBuffer(bufferList);
@@ -95,14 +78,15 @@ const Game: FunctionComponent = () => {
       setLettersSpelled([...lettersSpelled, currentLetter]);
       //@ts-ignore
       setCurrentLetter(() => {return Alphabet[Math.floor(Math.random() * 26)]});
-      setBuffer((prev) => prev = []);
+      let emptyBuffer:String[] = buffer;
+      while(emptyBuffer.length !== 0){
+        emptyBuffer.shift();
+      }
+      setBuffer(emptyBuffer);
+      
+      console.log(buffer);
+      
     }
-  //   console.log('currentletter')
-  //  if(isSpelledCorrectly) {
-  //    //@ts-ignore
-  //    setCurrentLetter(() => {return Alphabet[Math.floor(Math.random() * 26)]});
-     
-  //  }
   }, [flag]);
 
   return (
