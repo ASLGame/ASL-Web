@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import styles from "./profile.module.css";
 import { ProfilePicture } from "./components/profilePicture/ProfilePicture";
-import { LastPlayed } from "./components/lastPlayed/LastPlayed";
 import { useEffect, useState } from "react";
 import { selectUser } from "../signin/signinSlice";
-import { lastestPlayedAsync, selectLatestPlayed } from "./profileSlice";
+import { lastestPlayedAsync, scoresAsync, selectLatestPlayed } from "./profileSlice";
 import { TabMenu } from "./components/tabMenu/TabMenu";
+import { LastPlayed } from "./components/lastPlayed/LastPlayed";
 
 export function Profile() {
   const dispatch = useAppDispatch();
@@ -15,6 +15,7 @@ export function Profile() {
 
   useEffect(() => {
     dispatch(lastestPlayedAsync(user.account_id!))
+    dispatch(scoresAsync(user.account_id!))
 }, [])
 
   return (
