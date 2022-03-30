@@ -4,7 +4,7 @@
   justify-content: center;
   flex-direction: column;
   width: 100vw;
-  height: 100%;
+  height: 91vh;
   align-self: center;
 }
 
@@ -15,7 +15,7 @@
   justify-content: flex-start;
   width: 75%;
   height: 100%;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   background-color: var(--gray);
   border-radius: 3%;
 }

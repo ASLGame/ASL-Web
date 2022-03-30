@@ -13,24 +13,26 @@ const GameCarousel: FunctionComponent<GameCarouselProps> = () => {
   const featuredGames = useSelector(selectFeaturedGames)!;
   const featuredGamesState = useSelector(selectFeaturedGamesState);
   const [currentFeaturedGameName, setCurrentFeaturedGameName] = useState(
-    featuredGames[0].name
+    featuredGames[0] ? featuredGames[0].name : ""
   );
 
   const renderCarouselGames = (featuredGames: Array<Game>) => {
-    return featuredGames.map((game) => {
-      return (
-        <div key={game.name} className={styles.imageContainer}>
-          <img
-            className={styles.image}
-            src={game.gameAssets[0].path}
-            alt="Whoops..."
-          ></img>
-          <div className={styles.middle}>
-            <div className={styles.text}> {game.description} </div>
+    if (Array.isArray(featuredGames)) {
+      return featuredGames.map((game) => {
+        return (
+          <div key={game.id} className={styles.imageContainer}>
+            <img
+              className={styles.image}
+              src={game.gameAssets[0].path}
+              alt="Whoops..."
+            ></img>
+            <div className={styles.middle}>
+              <div className={styles.text}> {game.description} </div>
+            </div>
           </div>
-        </div>
-      );
-    });
+        );
+      });
+    }
   };
 
   if (featuredGamesState !== "loading" && featuredGames) {

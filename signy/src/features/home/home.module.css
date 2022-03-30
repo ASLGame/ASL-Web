@@ -1,13 +1,13 @@
 .container {
   display: flex;
-  height: 100vh;
+  height: 92vh;
   width: 100vw;
   flex-direction: column;
 }
 
 .background {
-  height: 100vh;
-  width: 100vw;
+  /* height: 100vh;
+  width: 100vw; */
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

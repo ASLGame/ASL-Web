@@ -17,11 +17,11 @@ const GameTiles: FunctionComponent<GameTilesProps> = () => {
   const navigate = useNavigate();
 
   const renderGameTiles = () => {
-    if (allGames) {
+    if (Array.isArray(allGames)) {
       const filteredGames = allGames.filter((game) => {
         if (
           game.name.toLowerCase().includes(searchText.toLowerCase()) ||
-          game.description.toLowerCase().includes(searchText.toLowerCase())
+          game.description?.toLowerCase().includes(searchText.toLowerCase())
         ) {
           return game;
         }
@@ -37,7 +37,7 @@ const GameTiles: FunctionComponent<GameTilesProps> = () => {
                       <tr
                         className={styles.gameTile}
                         key={game.name}
-                        onClick={() => navigate(`game/${game.name}`)}
+                        onClick={() => navigate(`../game/${game.name}`)}
                       >
                         <td className={styles.gameImageColumn}>
                           <img
@@ -98,7 +98,7 @@ const GameTiles: FunctionComponent<GameTilesProps> = () => {
     }
   };
 
-  if (allGamesState === "loading") {
+  if (allGamesState === "loading" && allGames) {
     return <div>Loading... </div>;
   }
   return <div>{renderGameTiles()}</div>;
