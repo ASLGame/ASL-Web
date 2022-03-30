@@ -44,7 +44,7 @@ const NavBar = (props: {
     const links = [
       <a href="/">Leaderboards</a>,
       <p></p>,
-      <a href="/">About Us</a>,
+      <a href="/about">About Us</a>,
     ];
     if (user) {
       return [links, <p></p>, <a href="/">Sign-Out</a>];
