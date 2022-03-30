@@ -8,7 +8,10 @@ import { SignUp } from "./features/signup/SignUp";
 import Home from "./features/home/Home";
 import Games from "./features/games/Games";
 import NavBar from "./components/NavBar/NavBar";
-
+import { useSelector } from "react-redux";
+import { selectUser, signOut } from "./features/signin/signinSlice";
+import jwt_decode, { JwtPayload } from "jwt-decode";
+import { useAppDispatch } from "./app/hooks";
 const navigation = {
   brand: { name: "Signy", to: "/" },
   links: [
@@ -17,10 +20,21 @@ const navigation = {
     { name: "Account", to: "/profile" },
   ],
 };
-
 const { brand, links } = navigation;
 
 function App() {
+  const user = useSelector(selectUser);
+  const dispatch = useAppDispatch();
+  if (user?.access_token) {
+    const token = user?.access_token;
+    const decoded = jwt_decode<JwtPayload>(token);
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp! < currentTime) {
+      dispatch(signOut());
+      window.location.href = "/home";
+    }
+  }
+
   return (
     <Router>
       <div className="App">
