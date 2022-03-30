@@ -1,5 +1,4 @@
 import logo from "./logo.svg";
-import { Counter } from "./features/counter/Counter";
 import { SignIn } from "./features/signin/SignIn";
 import { Profile } from "./features/profile/Profile";
 import { Leaderboard } from "./features/leaderboard/leadrboard";
@@ -9,19 +8,33 @@ import { SignUp } from "./features/signup/SignUp";
 import Home from "./features/home/Home";
 import Games from "./features/games/Games";
 import NavBar from "./components/NavBar/NavBar";
-
+import { useSelector } from "react-redux";
+import { selectUser, signOut } from "./features/signin/signinSlice";
+import jwt_decode, { JwtPayload } from "jwt-decode";
+import { useAppDispatch } from "./app/hooks";
 const navigation = {
   brand: { name: "Signy", to: "/" },
   links: [
-    { name: "Home", to: "/home" },
+    { name: "Home", to: "/" },
     { name: "Games", to: "/games" },
     { name: "Account", to: "/profile" },
   ],
 };
-
 const { brand, links } = navigation;
 
 function App() {
+  const user = useSelector(selectUser);
+  const dispatch = useAppDispatch();
+  if (user?.access_token) {
+    const token = user?.access_token;
+    const decoded = jwt_decode<JwtPayload>(token);
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp! < currentTime) {
+      dispatch(signOut());
+      window.location.href = "/";
+    }
+  }
+
   return (
     <Router>
       <div className="App">
@@ -31,12 +44,11 @@ function App() {
             {/* 
                 List of routes with respective views
             */}
-            <Route path="/" element={<Counter />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/home" element={<Home />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/" element={<Home />} />
             <Route path="/games" element={<Games />} />
           </Routes>
         </header>
