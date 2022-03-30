@@ -1,5 +1,4 @@
 import logo from "./logo.svg";
-import { Counter } from "./features/counter/Counter";
 import { SignIn } from "./features/signin/SignIn";
 import { Profile } from "./features/profile/Profile";
 import "./App.css";
@@ -15,7 +14,7 @@ import { useAppDispatch } from "./app/hooks";
 const navigation = {
   brand: { name: "Signy", to: "/" },
   links: [
-    { name: "Home", to: "/home" },
+    { name: "Home", to: "/" },
     { name: "Games", to: "/games" },
     { name: "Account", to: "/profile" },
   ],
@@ -31,7 +30,7 @@ function App() {
     const currentTime = Date.now() / 1000;
     if (decoded.exp! < currentTime) {
       dispatch(signOut());
-      window.location.href = "/home";
+      window.location.href = "/";
     }
   }
 
@@ -44,11 +43,10 @@ function App() {
             {/* 
                 List of routes with respective views
             */}
-            <Route path="/" element={<Counter />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/games" element={<Games />} />
           </Routes>
         </header>

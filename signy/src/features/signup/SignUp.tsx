@@ -86,7 +86,7 @@ export function SignUp() {
                     DOB: dob,
                     role: "User",
                   })
-                ).then(() => navigate("../home"))
+                ).then(() => navigate("/"))
               }
             >
               Sign Up

@@ -14,7 +14,7 @@ export function SignIn() {
 
   useEffect(() => {
     if (auth) {
-      navigate("./home");
+      navigate("/");
     }
   }, []);
 
@@ -57,7 +57,7 @@ export function SignIn() {
                 dispatch(
                   signinAsync({ username: username, password: password })
                 ).then(() => {
-                  navigate("../home");
+                  navigate("/");
                 });
               }}
             >
