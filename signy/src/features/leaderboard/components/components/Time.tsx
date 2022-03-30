@@ -12,7 +12,7 @@ export function Today(){
         return scores!.map((score) => {
           if(new Date(score.date_achieved).toLocaleDateString() === new Date(Date.now()).toLocaleDateString()){
             return (
-              <div key={score.date_achieved} style={{width: "100%"}} >
+              <div key={score.id} style={{width: "100%"}}>
                 <div className={styles.row}>
                   <p>{counter += 1}. {score.username}</p>
                   <p>{score.name}</p>
@@ -51,7 +51,7 @@ export function Yesterday(){
         return scores!.map((score) => {
           if(new Date(score.date_achieved).toLocaleDateString() === new Date(Date.now()-86400000).toLocaleDateString()){
             return (
-              <div key={score.date_achieved} style={{width: "100%"}} >
+              <div key={score.id} style={{width: "100%"}} >
                 <div className={styles.row}>
                   <p>{counter += 1}. {score.username}</p>
                   <p>{score.name}</p>
@@ -90,7 +90,7 @@ export function Weekly(){
         return scores!.map((score) => {
           if(new Date(score.date_achieved).toLocaleDateString() >= new Date(Date.now()-604800000).toLocaleDateString() && new Date(score.date_achieved).toLocaleDateString() <= new Date(Date.now()).toLocaleDateString()){
             return (
-              <div key={score.date_achieved} style={{width: "100%"}} >
+              <div key={score.id} style={{width: "100%"}} >
                 <div className={styles.row}>
                   <p>{counter += 1}. {score.username}</p>
                   <p>{score.name}</p>

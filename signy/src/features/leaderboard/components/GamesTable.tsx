@@ -19,14 +19,7 @@ export function ByGames(){
                     <h2 style={{paddingBottom: "30px"}}>Highest Overall Scores</h2>
                     <Overall />
                 </TabPanel>
-                <TabPanel className={styles.tab_panel}>
-                    <h2 style={{paddingBottom: "30px"}}>Game 1</h2>
-                    <Game1 />
-                </TabPanel>
-                <TabPanel className={styles.tab_panel}>
-                    <h2 style={{paddingBottom: "30px"}}>Game 2</h2>
-                    <Game2 />
-                </TabPanel>
+                {GamePanels}
             </Tabs>
         </div>
     );

@@ -13,7 +13,7 @@ export function Game1(){
         return scores!.map((score) => {
           if(score.game_id === 1){
             return (
-              <div key={score.date_achieved} style={{width: "100%"}} >
+              <div key={score.id} style={{width: "100%"}} >
                 <div className={styles.row}>
                   <p>{counter += 1}. {score.username}</p>
                   <p>{new Date(score.date_achieved).toLocaleDateString()}</p>
@@ -52,7 +52,7 @@ export function Game2(){
         return scores!.map((score) => {
           if(score.game_id === 2){
             return (
-              <div key={score.date_achieved} style={{width: "100%"}} >
+              <div key={score.id} style={{width: "100%"}} >
                 <div className={styles.row}>
                   <p>{counter += 1}. {score.username}</p>
                   <p>{new Date(score.date_achieved).toLocaleDateString()}</p>

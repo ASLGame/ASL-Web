@@ -11,7 +11,7 @@ export function Overall(){
     const allscores = () => {
         return scores!.map((score) => {
             return (
-              <div key={score.date_achieved} style={{width: "100%"}} >
+              <div key={score.id} style={{width: "100%"}}>
                 <div className={styles.row}>
                   <p>{counter += 1}. {score.username}</p>
                   <p>{score.name}</p>
