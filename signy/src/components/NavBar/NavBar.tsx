@@ -10,7 +10,7 @@ import {
   Input,
 } from "./NavBar.styled.js";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectUser } from "../../features/signin/signinSlice"; //use to check if user is signed in
+import { selectSignIn, signOut } from "../../features/signin/signinSlice"; //use to check if user is signed in
 import { ReactComponent as Signy } from "./signy.svg";
 import { useNavigate } from "react-router-dom";
 
@@ -18,18 +18,19 @@ const NavBar = (props: {
   brand: { name: string; to: string };
   links: Array<{ name: string; to: string }>;
 }) => {
-  const user = useAppSelector(selectUser);
+  const isAuth = useAppSelector(selectSignIn);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { brand, links } = props;
   const NavLinks: any = () =>
     links.map((link: { name: string; to: string }) => {
-      if (!user && link.name === "Account") {
+      if (!isAuth && link.name === "Account") {
         return [
           <Li key="Sign-In">
-            <a href="/signin">Sign-In</a>
+            <a href="/signin">Sign In</a>
           </Li>,
           <Li key="Sign-Up">
-            <a href="/signup">Sign-Up</a>
+            <a href="/signup">Sign Up</a>
           </Li>,
         ];
       } else {
@@ -46,8 +47,14 @@ const NavBar = (props: {
       <p></p>,
       <a href="/">About Us</a>,
     ];
-    if (user) {
-      return [links, <p></p>, <a href="/">Sign-Out</a>];
+    if (isAuth) {
+      return [
+        links,
+        <p></p>,
+        <a onClick={() => dispatch(signOut())} href="/">
+          Sign Out
+        </a>,
+      ];
     } else {
       return links;
     }
