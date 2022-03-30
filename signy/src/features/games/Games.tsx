@@ -17,7 +17,7 @@ const Games: FunctionComponent<GamesProps> = () => {
 
   useEffect(() => {
     dispatch(getAllGamesAsync());
-  });
+  }, [dispatch]);
 
   return (
     <div className={styles.containerOuter}>
@@ -35,8 +35,11 @@ const Games: FunctionComponent<GamesProps> = () => {
             <input
               type="text"
               name="StackOverflow1370021"
-              value="Fix IE bug"
+              defaultValue="Fix one form bug"
               style={{ display: "none" }}
+              onChange={() => {
+                console.log("Nice find!");
+              }}
             />
             <i className={styles.icon} />
           </div>

@@ -7,6 +7,7 @@ import {
 import counterReducer from "../features/counter/counterSlice";
 import signinReducer from "../features/signin/signinSlice";
 import homeReducer from "../features/home/homeSlice";
+import userProfile from "../features/profile/profileSlice";
 import gamesReducer from "../features/games/gamesSlice";
 import latestPlayedReducer from "../features/profile/profileSlice";
 import getscoreReducer from "../features/leaderboard/leaderboardSlice";
@@ -20,7 +21,8 @@ const reducers = combineReducers({
   home: homeReducer,
   latestPlayed: latestPlayedReducer,
   scores: getscoreReducer,
-  games: gamesReducer
+  games: gamesReducer,
+  userProfile: userProfile,
 });
 
 const persistConfig = {
