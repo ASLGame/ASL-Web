@@ -4,6 +4,7 @@ import styles from "../GamesTable.module.css"
 
 
 export function Game1(){
+    console.log("It starts")
     const scores = useAppSelector(selectScores);
     const state = useAppSelector(scoreState);
     let counter = 0;

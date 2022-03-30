@@ -2,6 +2,7 @@ import styles from "./GamesTable.module.css"
 import { useEffect, useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { Overall } from "./components/Overall";
+import { GamePanels } from "./components/GamePanels";
 import { Game1, Game2 } from "./components/Game";
 
 export function ByGames(){

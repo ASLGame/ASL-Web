@@ -15,6 +15,7 @@ export function Today(){
               <div key={score.date_achieved} style={{width: "100%"}} >
                 <div className={styles.row}>
                   <p>{counter += 1}. {score.username}</p>
+                  <p>{score.name}</p>
                   <p>{score.score}</p>
                 </div>
               </div>
@@ -30,6 +31,7 @@ export function Today(){
               <div style={{width: "100%"}}>
                 <div className={styles.row}>
                   <p>User</p>
+                  <p>Game</p>
                   <p>Score</p>
                 </div>
                {allscores()}
@@ -52,6 +54,7 @@ export function Yesterday(){
               <div key={score.date_achieved} style={{width: "100%"}} >
                 <div className={styles.row}>
                   <p>{counter += 1}. {score.username}</p>
+                  <p>{score.name}</p>
                   <p>{score.score}</p>
                 </div>
               </div>
@@ -67,6 +70,7 @@ export function Yesterday(){
               <div style={{width: "100%"}}>
                 <div className={styles.row}>
                   <p>User</p>
+                  <p>Game</p>
                   <p>Score</p>
                 </div>
                {allscores()}
@@ -89,6 +93,7 @@ export function Weekly(){
               <div key={score.date_achieved} style={{width: "100%"}} >
                 <div className={styles.row}>
                   <p>{counter += 1}. {score.username}</p>
+                  <p>{score.name}</p>
                   <p>{new Date(score.date_achieved).toLocaleDateString()}</p>
                   <p>{score.score}</p>
                 </div>
@@ -105,6 +110,7 @@ export function Weekly(){
               <div style={{width: "100%"}}>
                 <div className={styles.row}>
                   <p>User</p>
+                  <p>Game</p>
                   <p>Date Achieved</p>
                   <p>Score</p>
                 </div>
