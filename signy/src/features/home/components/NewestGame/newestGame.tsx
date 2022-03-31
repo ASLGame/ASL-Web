@@ -18,7 +18,7 @@ const NewestGame: FunctionComponent<NewestGameProps> = () => {
           <div className={styles.imageContainer}>
             <img
               className={styles.gameImage}
-              src={newestGame.gameAssets[0].path}
+              src={newestGame.gameAssets ? newestGame.gameAssets[0].path : ""}
               alt="Failed to load."
             />
             <div className={styles.middle}>

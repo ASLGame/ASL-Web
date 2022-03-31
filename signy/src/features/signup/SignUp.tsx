@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./signup.module.css";
 import { BackButton, Button } from "../../components/Button.styled";
 import { signupAsync } from "../signin/signinSlice";
@@ -14,6 +14,7 @@ export function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -21,7 +22,7 @@ export function SignUp() {
 
   if (formPhase) {
     content = (
-        <div className={styles.row}>
+      <div className={styles.row}>
         <div className={styles.signupBoxv2}>
           <div className={styles.heading}>
             <BackButton onClick={() => setFormPhase(false)}>&#8249;</BackButton>
@@ -73,16 +74,30 @@ export function SignUp() {
             </a>
           </div>
           <div className={styles.button_container}>
-            <Button onClick={() => dispatch(signupAsync({first_name: firstname, last_name: lastname, password: password, username: username, email: email, DOB: dob, role: "User"}))}>
+            <Button
+              onClick={() =>
+                dispatch(
+                  signupAsync({
+                    first_name: firstname,
+                    last_name: lastname,
+                    password: password,
+                    username: username,
+                    email: email,
+                    DOB: dob,
+                    role: "User",
+                  })
+                ).then(() => navigate("/"))
+              }
+            >
               Sign Up
             </Button>
           </div>
         </div>
       </div>
-    )
+    );
   } else {
-      content = (
-        <div className={styles.row}>
+    content = (
+      <div className={styles.row}>
         <div className={styles.signupBox}>
           <div className={styles.heading}>
             <h1 className={styles.h1}>Sign Up</h1>
@@ -124,17 +139,11 @@ export function SignUp() {
             </a>
           </div>
           <div className={styles.button_container}>
-            <Button onClick={() => setFormPhase(true)}>
-              Continue
-            </Button>
+            <Button onClick={() => setFormPhase(true)}>Continue</Button>
           </div>
         </div>
       </div>
-      )
+    );
   }
-  return (
-    <div>
-      {content}
-    </div>
-  );
+  return <div>{content}</div>;
 }

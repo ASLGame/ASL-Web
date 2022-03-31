@@ -9,7 +9,7 @@ export function LastPlayed() {
   const renderLatestPlayed = () => {
     return latestPlayed!.map((game) => {
       return (
-        <div key={game.date_achieved} className={styles.games}>
+        <div key={game.id} className={styles.games}>
             <div className={styles.icon}></div>
           <div className={styles.attributes}>{game.name}</div>
           <div className={styles.attributes}>{game.score}</div>

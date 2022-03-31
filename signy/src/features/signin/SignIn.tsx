@@ -1,15 +1,22 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { signinAsync, selectSignIn } from "./signinSlice";
 import styles from "./signin.module.css";
-import {Button } from "../../components/Button.styled"
+import { Button } from "../../components/Button.styled";
 
 export function SignIn() {
   const auth = useAppSelector(selectSignIn);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (auth) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div>
@@ -35,11 +42,27 @@ export function SignIn() {
             />
           </form>
           <div className={styles.link}>
-            <a><Link to="/signup">Don't have an account? <br /> Sign Up</Link></a>
-            <a><Link to="/forgotpassword">Forgot Password?</Link></a>
+            <a>
+              <Link to="/signup">
+                Don't have an account? <br /> Sign Up
+              </Link>
+            </a>
+            <a>
+              <Link to="/forgotpassword">Forgot Password?</Link>
+            </a>
           </div>
           <div className={styles.button_container}>
-            <Button onClick={() => dispatch(signinAsync({username: username, password: password}))}>Sign In</Button>
+            <Button
+              onClick={() => {
+                dispatch(
+                  signinAsync({ username: username, password: password })
+                ).then(() => {
+                  navigate("/");
+                });
+              }}
+            >
+              Sign In
+            </Button>
           </div>
         </div>
       </div>

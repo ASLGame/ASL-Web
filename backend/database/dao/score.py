@@ -1,4 +1,4 @@
-from ..entity import score
+from ..entity import score, account, game
 from api import db
 from sqlalchemy import text
 
@@ -8,6 +8,12 @@ class ScoreDAO:
     @staticmethod  # Pulls all the scores
     def get_all_scores():
         return score.query.all()
+
+    def get_high_scores():
+        return db.session.query(score, account.username, game.name).filter(score.account_id == account.id).filter(score.game_id == game.id).order_by(score.score.desc())
+        
+    def get_high_scores_by_game(gid):
+        return db.session.query(score, account.username).filter(score.account_id == account.id).filter(gid == score.game_id).order_by(score.score.desc())
 
     @staticmethod  # Creates new score
     def create_score(json):
@@ -29,13 +35,17 @@ class ScoreDAO:
     def get_user_game_scores(json):
         return db.session.query(score).filter(score.account_id == json['account_id'], score.game_id == json['game_id'])
     
-    @staticmethod # Pull latest 5 games played plus the score for a User
-    def get_latest_played(uid):
-        t = text('''SELECT score, name, date_achieved
+    @staticmethod # Pull latest games played plus the score for a User (can be limited with the use of the limit variable)
+    def get_latest_played(uid, limit):
+        op_limit = ""
+        if(limit > 0):
+            op_limit = "limit({})".format(limit)
+        
+        t = text('''SELECT score, name, date_achieved, "Score".id
                 FROM "Score"
                 inner join "Game" G
                 on "Score".game_id = G.id and "Score".account_id = {}
-                order by date_achieved desc limit(5)'''.format(uid)
+                order by date_achieved desc {}'''.format(uid, op_limit)
             )
         result = db.session.execute(t)
         return result

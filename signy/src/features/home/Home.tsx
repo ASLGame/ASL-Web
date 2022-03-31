@@ -16,7 +16,7 @@ const Home: FunctionComponent<HomeProps> = () => {
   useEffect(() => {
     dispatch(getNewestGameAsync());
     dispatch(getFeaturedGamesAsync());
-  });
+  }, [dispatch]);
 
   return (
     <>
