@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import { SignIn } from "./features/signin/SignIn";
 import { Profile } from "./features/profile/Profile";
+import { Leaderboard } from "./features/leaderboard/leadrboard";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { SignUp } from "./features/signup/SignUp";
@@ -46,6 +47,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/" element={<Home />} />
             <Route path="/games" element={<Games />} />
           </Routes>

@@ -16,6 +16,31 @@ class ScoreHandler:
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
+    def get_high_scores():
+        try:
+            score_dao = scoreDAO.get_high_scores()
+            result = []
+            for s, a, g in score_dao:
+                s = sql_to_dict(s)
+                a = {"username": a}
+                g = {"name": g}
+                result.append(s | a | g)
+            return jsonify(result), HttpStatus.OK.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def get_high_scores_by_game(gid):
+        try:
+            score_dao = scoreDAO.get_high_scores_by_game(gid)
+            result = []
+            for s, a in score_dao:
+                s = sql_to_dict(s)
+                a = {"username": a}
+                result.append(s | a)
+            return jsonify(result), HttpStatus.OK.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
     def create_score(json):
         try:
             score_dao = scoreDAO.create_score(json)
