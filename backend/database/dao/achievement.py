@@ -10,7 +10,7 @@ class AchievementDAO:
         return achievement.query.get(aid)
 
     def create_achievement(json):
-        new_achievement = achievement(account_stats_id=json['account_stats_id'], 
+        new_achievement = achievement(stats_id=json['stats_id'], 
                 game_id=json['game_id'], name=json['name'], type=json['type'], task=json['task'],
                 description=json['description'], date_created=datetime.utcnow())
         db.session.add(new_achievement)
