@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { EditProfile } from "./components/editProfile/EditProfile"
+import { Scores } from "./components/scores/Scores";
 import styles from "./tabMenu.module.css";
 
 export function TabMenu() {
@@ -28,6 +29,7 @@ export function TabMenu() {
         </TabPanel>
         <TabPanel className={styles.tab_panel}>
           <h2>Scores</h2>
+          <Scores />
         </TabPanel>
       </Tabs>
     </div>

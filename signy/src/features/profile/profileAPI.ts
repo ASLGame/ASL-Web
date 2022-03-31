@@ -1,9 +1,8 @@
-import { User } from "../signin/signinSlice";
 import { passwordChanges, userChanges } from "./components/tabMenu/components/editProfile/EditProfile";
 
 const url = "http://localhost:8000/"
 export const getLatestPlayed = async (uid: number) => {
-    const response = await fetch(url + `signy/scores/users/latest/${uid}`, {
+    const response = await fetch(url + `signy/scores/users/latest/${uid}/5`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -16,6 +15,20 @@ export const getLatestPlayed = async (uid: number) => {
         }
     
   }
+
+export const getScores = async (uid: number) => {
+    const response = await fetch(url + `signy/scores/users/latest/${uid}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        if (response.ok) {
+            return response.json();
+        } else { 
+            return response
+        }
+}
 
 export const updateUser = async (userData: userChanges) => {
     const response = await fetch(url + `signy/accounts/edit/profile/${userData.id}`, {
