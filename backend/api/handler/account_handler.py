@@ -113,7 +113,7 @@ class AccountHandler:
             if account_dao:
                 account_dao = sql_to_dict(account_dao)
                 if(sha256.verify(json['password'], account_dao['password'])):
-                    access_token = create_access_token(identity=account_dao['id'], expires_delta=timedelta(days=5))
+                    access_token = create_access_token(identity=account_dao['id'], expires_delta=timedelta(days=1))
                     return jsonify(access_token = access_token, account_id = account_dao['id'], account_username = account_dao['username'], account_firstname = account_dao['first_name'], account_dob = account_dao['DOB'], account_lastname = account_dao['last_name'], account_created = account_dao['date_created'], account_email = account_dao['email'], account_role=account_dao['role']), HttpStatus.OK.value
                 else:
                     return jsonify(reason="Password did not match"), HttpStatus.BAD_REQUEST.value

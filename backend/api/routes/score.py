@@ -36,3 +36,14 @@ def get_game_scores(gid):
 def get_latest_played(uid, limit=0):
     if request.method == 'GET':
         return ScoreHandler.get_latest_played(uid, limit)
+
+@app.route("/signy/scores/highscores", methods=["GET"])
+def get_high_scores():
+    if request.method == 'GET':
+        return ScoreHandler.get_high_scores()
+
+@app.route("/signy/scores/highscores/<int:gid>", methods=["GET"])
+def get_high_scores_by_game(gid):
+    if request.method == 'GET':
+        return ScoreHandler.get_high_scores_by_game(gid)
+        
