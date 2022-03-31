@@ -45,7 +45,7 @@ const NavBar = (props: {
     const links = [
       <a href="/leaderboard">Leaderboards</a>,
       <p></p>,
-      <a href="/">About Us</a>,
+      <a href="/about">About Us</a>,
     ];
     if (isAuth) {
       return [

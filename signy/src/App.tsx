@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import { SignIn } from "./features/signin/SignIn";
 import { Profile } from "./features/profile/Profile";
+import About from "./features/about/About";
 import { Leaderboard } from "./features/leaderboard/leadrboard";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -50,6 +51,7 @@ function App() {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/" element={<Home />} />
             <Route path="/games" element={<Games />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </header>
       </div>
