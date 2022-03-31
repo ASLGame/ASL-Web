@@ -12,8 +12,7 @@ const Game: FunctionComponent = () => {
     //@ts-ignore
     Alphabet[Math.floor(Math.random() * 26)]
   );
-  let [hasBufferEmptied, setHasBufferEmptied] = useState(false);
-  let [blockCheckingFlag, setBlockCheckingFlag] = useState(false);
+  const [timer, setTimer] = useState<number>(10);
   const [lettersSpelled, setLettersSpelled] = useState<String[]>([]);
 
   const renderLetters = (word: string) => {
@@ -47,7 +46,7 @@ const Game: FunctionComponent = () => {
         appearanceOfLetter += 1;
       }
     });
-    if (appearanceOfLetter / 20 > 0.8) {
+    if (appearanceOfLetter / 15 > 0.8) {
       
       return true
     }
@@ -58,7 +57,7 @@ const Game: FunctionComponent = () => {
   const updateBuffer = (value: String) => {
     let bufferList = buffer;
    
-    if (buffer.length === 20 && !blockCheckingFlag) {
+    if (buffer.length === 15) {
       
       bufferList.shift();
       bufferList.push(value);
@@ -74,7 +73,7 @@ const Game: FunctionComponent = () => {
 
   useEffect(() => {
     console.log('useEffect ', currentLetter);
-    if(isLetterCorrect()){
+    if(isLetterCorrect() || timer === 0){
       setLettersSpelled([...lettersSpelled, currentLetter]);
       //@ts-ignore
       setCurrentLetter(() => {return Alphabet[Math.floor(Math.random() * 26)]});
@@ -83,11 +82,29 @@ const Game: FunctionComponent = () => {
         emptyBuffer.shift();
       }
       setBuffer(emptyBuffer);
+      setTimer(10);
+      
       
       console.log(buffer);
       
     }
-  }, [flag]);
+  }, [flag, timer]);
+
+  useEffect(() =>{
+
+    const interval = setInterval(() => {
+      if(timer === 0){
+
+      }else{
+        setTimer(timer - 1);
+      }
+      
+    }, 1000);
+
+    return () =>{
+      clearInterval(interval);
+    }
+  }, [timer]);
 
   return (
     <>
@@ -97,6 +114,9 @@ const Game: FunctionComponent = () => {
             <ModelCamera updateGameBuffer={updateBuffer}></ModelCamera>
             <div className={styles.word}>
               <h3>Your next letter is: {currentLetter}</h3>
+            </div>
+            <div>
+              Timer: {timer} second{timer === 1 ? '' : 's'}
             </div>
           </div>
           <div className={styles.right}>
