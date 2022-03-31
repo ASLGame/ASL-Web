@@ -1,6 +1,7 @@
 from api import db
 from database.entity import *
 from sqlalchemy.sql import func
+from passlib.hash import pbkdf2_sha256 as sha256
 
 
 # Pass sql object to function, convert into dictionary
@@ -10,10 +11,10 @@ def sql_to_dict(obj):
     return obj
 
 def dummyDB():
-    new_account = account(username="yamil9926", email="yamil.irizarry@upr.edu", password="password", DOB=func.now(), first_name="Yamil", last_name="Irizarry", 
+    new_account = account(username="yamil9926", email="yamil.irizarry@upr.edu", password=sha256.hash("password"), DOB=func.now(), first_name="Yamil", last_name="Irizarry", 
                                 date_created=func.now(), date_updated=func.now(), role="Admin")
     db.session.add(new_account)
-    new_account = account(username="jose_a", email="jose.biescas@upr.edu", password="123456", DOB=func.now(), first_name="Jose", last_name="Biescas", 
+    new_account = account(username="jose_a", email="jose.biescas@upr.edu", password=sha256.hash("123456"), DOB=func.now(), first_name="Jose", last_name="Biescas", 
                                 date_created=func.now(), date_updated=func.now(), role="Admin")
     db.session.add(new_account)
     new_bank = bank(name="Bank", description="Description")
