@@ -17,7 +17,7 @@ class ScoreDAO:
 
     @staticmethod  # Creates new score
     def create_score(json):
-        new_score = score(score=json['score'], date_achieved=json['date_achieved'], account_id=json['account_id'],
+        new_score = score(score=json['score'], account_id=json['account_id'],
                           game_id=json['game_id'])
         db.session.add(new_score)
         db.session.commit()
