@@ -28,3 +28,8 @@ def get_newest_game():
 def get_featured_games():
     if request.method == 'GET':
         return GameHandler.get_featured_games()
+
+@app.route('/signy/game/<string:name>', methods=['GET'])
+def get_game_by_name(name):
+    if request.method == 'GET':
+        return GameHandler.get_game_by_name(name)

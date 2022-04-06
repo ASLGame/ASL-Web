@@ -43,6 +43,17 @@ class GameHandler:
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
+    def get_game_by_name(name):
+        try: 
+            game_dao = gameDao.get_game_by_name(name)
+            game_dao = sql_to_dict(game_dao)
+            if game_dao: 
+                return jsonify(game_dao), HttpStatus.OK.value
+            else:
+                return jsonify("Game with name: {} not found".format(name)), HttpStatus.NOT_FOUND.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
     def delete_game(gid):
         try:
             game_dao_deleted = gameDao.delete_game(gid)

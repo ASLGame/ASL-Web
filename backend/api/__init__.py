@@ -9,6 +9,7 @@ from config import load_config
 #App instance
 app = Flask("Signy")
 config = load_config()
+print(config.host)
 app.config['CORS_HEADER'] = 'Content-type'
 app.config['SECRET_KEY'] = config.secret_key
 app.config['SECRET_SALT'] = config.secret_salt

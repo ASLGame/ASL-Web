@@ -24,6 +24,10 @@ class GameDao:
         return game.query.get(gid)
 
     @staticmethod
+    def get_game_by_name(name): 
+        return db.session.query(game).where(game.name == name).first()
+
+    @staticmethod
     def delete_game(gid):
         game_deleted = db.session.query(game).where(game.id==gid).delete()
         db.session.commit()
