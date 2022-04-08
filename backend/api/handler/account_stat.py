@@ -54,3 +54,12 @@ class AccountStatHandler:
             return jsonify("Account stat deleted."), HttpStatus.OK.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    # Creates the set of account stats when an account is created.
+    def account_stats_initialize(id):
+        try: 
+            account_stat = accountStatDao.account_stats_initialize(id)
+            if (account_stat):
+                return account_stat
+        except Exception as e:
+            return False

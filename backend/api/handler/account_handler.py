@@ -1,5 +1,5 @@
 from datetime import timedelta
-from ntpath import join
+from api.handler.account_stat import AccountStatHandler
 from database.dao import accountDAO
 from flask import jsonify
 from api import HttpStatus, app
@@ -132,7 +132,12 @@ class AccountHandler:
             create_account = accountDAO.create_account(json)
             token = AccountHandler.generate_confirmation_token(json.get('email'))
             send_email(json['email'], "Email Confirmation Code", token)
-            return AccountHandler.sign_in(json)
+            init = AccountStatHandler.account_stats_initialize(create_account)
+            if(init):
+                return AccountHandler.sign_in(json)
+            else:
+                AccountHandler.delete_account(create_account)
+                return jsonify(reason="The account stat initialization failed."), HttpStatus.INTERNAL_SERVER_ERROR.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 

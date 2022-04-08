@@ -1,6 +1,9 @@
+from sqlalchemy import true
 from api import db
 from ..entity import account_stat
 from datetime import datetime
+from .stat import StatDao
+from api.common.utils import sql_to_dict
 
 class AccountStatDao:
 
@@ -14,7 +17,7 @@ class AccountStatDao:
 
     @staticmethod
     def create_account_stat(json):
-        new_account_stat = account_stat(account_id = json['account_id'], value = json['value'], stats_id = json["stats_id"], date_created = datetime.utcnow(), date_updated = datetime.utcnow())
+        new_account_stat = account_stat(account_id = json['account_id'], value = json['value'], stats_id = json["stats_id"])
         db.session.add(new_account_stat)
         db.session.commit()
 
@@ -38,4 +41,11 @@ class AccountStatDao:
         db.session.commit()
         return delete_account
 
-    
+    @staticmethod
+    def account_stats_initialize(id):
+        res = StatDao.get_all_stats()
+        for stat in res:
+            dStat = sql_to_dict(stat)
+            info = {'account_id': id, 'stats_id': dStat['id'], 'value': 0}
+            AccountStatDao.create_account_stat(info)
+        return true
