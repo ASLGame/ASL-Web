@@ -1,3 +1,4 @@
+from api.handler.account_stat import AccountStatHandler
 from database.dao import statDao
 from flask import jsonify
 from api import HttpStatus
@@ -29,7 +30,13 @@ class StatHandler:
     def create_stat(json):
         try: 
             stat = statDao.create_stat(json)
-            return jsonify("Stat created with ID {}".format(stat)), HttpStatus.OK.value
+            if(stat):
+                res = AccountStatHandler.add_new_account_stat(stat)
+                if(res):
+                    return jsonify("Stat created with ID {}".format(stat)), HttpStatus.OK.value
+                else:
+                    StatHandler.delete_stat(stat)
+                    return jsonify(reason="Could not update all accounts."), HttpStatus.INTERNAL_SERVER_ERROR.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 

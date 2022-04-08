@@ -61,5 +61,18 @@ class AccountStatHandler:
             account_stat = accountStatDao.account_stats_initialize(id)
             if (account_stat):
                 return account_stat
+            else:
+                return False
         except Exception as e:
-            return False
+            return e.__str__()
+    
+    def add_new_account_stat(sid):
+        try: 
+            account_stat = accountStatDao.add_new_account_stat(sid)
+            print(account_stat, 'account_stat')
+            if (account_stat):
+                return account_stat
+            else:
+                return False
+        except Exception as e:
+            return e.__str__()

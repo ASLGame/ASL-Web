@@ -1,5 +1,6 @@
 from sqlalchemy import true
 from api import db
+from database.dao.account import AccountDao
 from ..entity import account_stat
 from datetime import datetime
 from .stat import StatDao
@@ -45,7 +46,15 @@ class AccountStatDao:
     def account_stats_initialize(id):
         res = StatDao.get_all_stats()
         for stat in res:
-            dStat = sql_to_dict(stat)
-            info = {'account_id': id, 'stats_id': dStat['id'], 'value': 0}
+            info = {'account_id': id, 'stats_id': stat.id, 'value': 0}
+            AccountStatDao.create_account_stat(info)
+        return true
+    
+    # If we create a new stat, existing accounts must be updated with this new account_stat
+    @staticmethod
+    def add_new_account_stat(sid):
+        accounts = AccountDao.getAllAccounts()
+        for acc in accounts:
+            info = {'account_id': acc.id, 'stats_id': sid, 'value': 0}
             AccountStatDao.create_account_stat(info)
         return true
