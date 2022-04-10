@@ -35,7 +35,7 @@ class AchievementHandler:
                 if (res[1] == 200):
                     return jsonify("Achievement created with ID {}".format(achievement)), HttpStatus.OK.value
                 else:
-                    AccountAchievementsHandler.delete_account_achievements(achievement)
+                    AchievementHandler.delete_achievement(achievement)
                     return jsonify(reason="Could not update all account achievements because {}".format(res[0].get_json())), HttpStatus.BAD_REQUEST.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value

@@ -72,7 +72,7 @@ class AccountAchievementsDAO:
         accounts = AccountDao.getAllAccounts()
         successful = []
         for acc in accounts:
-            info = {'account_id': acc['id'], 'achievement_id': aid}
+            info = {'account_id': acc.id, 'achievement_id': aid}
             res = AccountAchievementsDAO.create_account_achievements(info)
             successful.append(res)
         if (len(successful) == len(accounts)):
