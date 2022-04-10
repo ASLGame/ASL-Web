@@ -135,7 +135,7 @@ class AccountHandler:
             send_email(json['email'], "Email Confirmation Code", token)
             init_stats = AccountStatHandler.account_stats_initialize(create_account)
             init_achievements = AccountAchievementsHandler.account_achievements_initialize(create_account)
-            if(init_stats and init_achievements):
+            if(init_stats[1] == 200 and init_achievements[1] == 200):
                 return AccountHandler.sign_in(json)
             else:
                 AccountHandler.delete_account(create_account)

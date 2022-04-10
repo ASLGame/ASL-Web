@@ -58,23 +58,23 @@ class AccountAchievementsDAO:
     @staticmethod
     def account_achievements_initialize(id):
         achievements = AchievementDAO.get_all_achievements()
-        successful = 0
+        successful = []
         for ach in achievements:
             info = {'account_id': id, 'achievement_id': ach.id}
-            AccountAchievementsDAO.create_account_achievements(info)
-            successful = successful + 1
-        if (successful == len(achievements)):
+            res = AccountAchievementsDAO.create_account_achievements(info)
+            successful.append(res)
+        if (len(successful) == len(achievements)):
             return True
         return False
     
     @staticmethod
     def add_new_account_achievements(aid):
         accounts = AccountDao.getAllAccounts()
-        successful = 0
+        successful = []
         for acc in accounts:
             info = {'account_id': acc['id'], 'achievement_id': aid}
-            AccountAchievementsDAO.create_account_achievements(info)
-            successful = successful + 1
-        if (successful == len(accounts)):
+            res = AccountAchievementsDAO.create_account_achievements(info)
+            successful.append(res)
+        if (len(successful) == len(accounts)):
             return True
         return False

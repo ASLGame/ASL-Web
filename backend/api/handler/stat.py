@@ -32,11 +32,11 @@ class StatHandler:
             stat = statDao.create_stat(json)
             if(stat):
                 res = AccountStatHandler.add_new_account_stat(stat)
-                if(res):
+                if(res[1] == 200):
                     return jsonify("Stat created with ID {}".format(stat)), HttpStatus.OK.value
                 else:
                     StatHandler.delete_stat(stat)
-                    return jsonify(reason="Could not update all accounts."), HttpStatus.INTERNAL_SERVER_ERROR.value
+                    return jsonify(reason="Could not update all account stats because {}".format(res[0].get_json())), HttpStatus.BAD_REQUEST.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 

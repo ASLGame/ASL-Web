@@ -60,18 +60,18 @@ class AccountStatHandler:
         try: 
             account_stat = accountStatDao.account_stats_initialize(id)
             if (account_stat):
-                return account_stat
+                return jsonify("Account stats initialized"), HttpStatus.OK.value
             else:
-                return False
+                return jsonify(reason="Account stats were not initialized"), HttpStatus.BAD_REQUEST.value
         except Exception as e:
-            return e.__str__()
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
     
     def add_new_account_stat(sid):
         try: 
             account_stat = accountStatDao.add_new_account_stat(sid)
             if (account_stat):
-                return account_stat
+                return jsonify("New Account Stats added."), HttpStatus.OK.value
             else:
-                return False
+                return jsonify(reason="New Account Stats were not added."), HttpStatus.OK.BAD_REQUEST.value
         except Exception as e:
-            return e.__str__()
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
