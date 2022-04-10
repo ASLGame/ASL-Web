@@ -1,5 +1,6 @@
 from datetime import timedelta
 from api.handler.account_stat import AccountStatHandler
+from api.handler.account_achievements import AccountAchievementsHandler
 from database.dao import accountDAO
 from flask import jsonify
 from api import HttpStatus, app
@@ -132,12 +133,13 @@ class AccountHandler:
             create_account = accountDAO.create_account(json)
             token = AccountHandler.generate_confirmation_token(json.get('email'))
             send_email(json['email'], "Email Confirmation Code", token)
-            init = AccountStatHandler.account_stats_initialize(create_account)
-            if(init):
+            init_stats = AccountStatHandler.account_stats_initialize(create_account)
+            init_achievements = AccountAchievementsHandler.account_achievements_initialize(create_account)
+            if(init_stats and init_achievements):
                 return AccountHandler.sign_in(json)
             else:
                 AccountHandler.delete_account(create_account)
-                return jsonify(reason="The account stat initialization failed."), HttpStatus.INTERNAL_SERVER_ERROR.value
+                return jsonify(reason="The account stat/achievement initialization failed."), HttpStatus.INTERNAL_SERVER_ERROR.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 

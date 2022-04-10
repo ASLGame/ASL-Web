@@ -64,3 +64,23 @@ class AccountAchievementsHandler:
             return jsonify(result), HttpStatus.OK.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def account_achievements_initialize(id):
+        try: 
+            account_achievement = accountAchievementsDao.account_achievements_initialize(id)
+            if (account_achievement):
+                return account_achievement
+            else:
+                return False
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+    
+    def add_new_account_achievements(aid):
+        try:
+            account_achievement = accountAchievementsDao.add_new_account_achievements(aid)
+            if(account_achievement):
+                return jsonify("New Account Achievements added."), HttpStatus.OK.value
+            else:
+                jsonify("New Account Achievements were not added."), HttpStatus.OK.BAD_REQUEST
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value

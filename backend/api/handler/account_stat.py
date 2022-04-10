@@ -69,7 +69,6 @@ class AccountStatHandler:
     def add_new_account_stat(sid):
         try: 
             account_stat = accountStatDao.add_new_account_stat(sid)
-            print(account_stat, 'account_stat')
             if (account_stat):
                 return account_stat
             else:
