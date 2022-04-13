@@ -1,6 +1,8 @@
 from api import db
+from database.dao.account import AccountDao
 from ..entity import account_stat
 from datetime import datetime
+from .stat import StatDao
 
 class AccountStatDao:
 
@@ -14,7 +16,7 @@ class AccountStatDao:
 
     @staticmethod
     def create_account_stat(json):
-        new_account_stat = account_stat(account_id = json['account_id'], value = json['value'], stats_id = json["stats_id"], date_created = datetime.utcnow(), date_updated = datetime.utcnow())
+        new_account_stat = account_stat(account_id = json['account_id'], value = json['value'], stats_id = json["stats_id"])
         db.session.add(new_account_stat)
         db.session.commit()
 
@@ -38,4 +40,27 @@ class AccountStatDao:
         db.session.commit()
         return delete_account
 
+    @staticmethod
+    def account_stats_initialize(id):
+        stats = StatDao.get_all_stats()
+        successful = []
+        for stat in stats:
+            info = {'account_id': id, 'stats_id': stat.id, 'value': 0}
+            res = AccountStatDao.create_account_stat(info)
+            successful.append(res)
+        if (len(successful) == len(stats)):
+            return True
+        return False
     
+    # If we create a new stat, existing accounts must be updated with this new account_stat
+    @staticmethod
+    def add_new_account_stat(sid):
+        accounts = AccountDao.getAllAccounts()
+        successful = []
+        for acc in accounts:
+            info = {'account_id': acc.id, 'stats_id': sid, 'value': 0}
+            res = AccountStatDao.create_account_stat(info)
+            successful.append(res)
+        if (len(successful) == len(accounts)):
+            return True
+        return False
