@@ -13,7 +13,7 @@ class StatDao:
 
     @staticmethod
     def get_stat_by_type(type):
-        return db.session.query(stat).filter(stat.type.contains(type)).all()
+        return db.session.query(stat).filter(stat.type == type).all()
 
     @staticmethod
     def create_stat(json):
