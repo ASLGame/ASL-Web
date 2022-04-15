@@ -17,3 +17,8 @@ def account_stat_by_id(id):
         return AccountStatHandler.update_account_stat(id, request.json)
     else:
         return AccountStatHandler.delete_account_stat(id)
+
+@app.route("/signy/account-stat/update/<int:aid>/<int:sid>", methods=['PUT'])
+def account_stat_update(aid, sid):
+    if request.method == 'PUT':
+        return AccountStatHandler.account_stat_update(aid, sid)

@@ -75,3 +75,14 @@ class AccountStatHandler:
                 return jsonify(reason="New Account Stats were not added."), HttpStatus.OK.BAD_REQUEST.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def account_stat_update(aid, sid):
+        try: 
+            account_stat = accountStatDao.account_stat_update(aid, sid)
+            if (account_stat):
+                return jsonify("Account stat updated."), HttpStatus.OK.value
+            else:
+                return jsonify(reason="Account stat could not be updated."), HttpStatus.OK.BAD_REQUEST.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+

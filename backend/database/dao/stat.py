@@ -12,6 +12,10 @@ class StatDao:
         return stat.query.get(id)
 
     @staticmethod
+    def get_stat_by_type(type):
+        return db.session.query(stat).filter(stat.type.contains(type)).all()
+
+    @staticmethod
     def create_stat(json):
         new_stat = stat(name=json['name'], description=json['description'], type=json["type"])
         db.session.add(new_stat)
