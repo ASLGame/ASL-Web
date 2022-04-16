@@ -43,13 +43,12 @@ class AccountAchievementsDAO:
     @staticmethod
     def get_user_account_achievement(id):
         t = text('''
-        SELECT distinct "Account".id, achievement_id, "Stats".id, game_id, task, value, has_achieved, date_achieved, "Achievement".name
-            from "Account"
-                inner join "Account_Achievements" AA on "Account".id = {}
-                inner join "Achievement" on AA.achievement_id = "Achievement".id
-                inner join "Stats" on "Achievement".stats_id = "Stats".id
-                inner join "Account_Stats" on "Account".id = "Account_Stats".account_id
-                order by achievement_id
+        SELECT AACH.account_id as account_id, AACH.id as acc_ach_id, AACH.has_achieved, A.name, A.task, ASS.value, S.id as stats_id
+            from "Account_Achievements" as AACH
+                inner join "Achievement" as A on AACH.account_id = {} and AACH.achievement_id = A.id
+                inner join "Stats" as S on A.stats_id = S.id
+                inner join "Account_Stats" as ASS on S.id = ASS.stats_id and AACH.account_id = ASS.account_id
+                order by game_id
         '''.format(id))
 
         result = db.session.execute(t)
