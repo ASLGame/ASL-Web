@@ -17,3 +17,8 @@ def achievement_by_id(id):
         return AchievementHandler.update_achievement(id, request.json)
     else:
         return AchievementHandler.delete_achievement(id)
+
+@app.route("/signy/game_achievement/<int:gid>", methods=['GET'])
+def get_game_achievements(gid):
+    if request.method == 'GET':
+        return AchievementHandler.get_game_achievements(gid)
