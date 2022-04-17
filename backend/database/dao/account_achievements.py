@@ -41,15 +41,25 @@ class AccountAchievementsDAO:
         return d_achievement
     
     @staticmethod
-    def get_user_account_achievement(id):
-        t = text('''
-        SELECT AACH.account_id as account_id, AACH.id as acc_ach_id, AACH.has_achieved, A.name, A.task, ASS.value, S.id as stats_id
+    def get_user_account_achievement(id, gid):
+        if gid:
+            t = text('''
+        SELECT game_id, AACH.account_id as account_id, AACH.id as acc_ach_id, AACH.has_achieved, A.name, A.task, ASS.value, S.id as stats_id, date_achieved, A.id as achievement_id
             from "Account_Achievements" as AACH
-                inner join "Achievement" as A on AACH.account_id = {} and AACH.achievement_id = A.id
+                inner join "Achievement" as A on AACH.account_id = {} and AACH.achievement_id = A.id and A.game_id = {}
                 inner join "Stats" as S on A.stats_id = S.id
                 inner join "Account_Stats" as ASS on S.id = ASS.stats_id and AACH.account_id = ASS.account_id
-                order by game_id
-        '''.format(id))
+                order by AACH.id
+        '''.format(id, gid))
+        else:
+            t = text('''
+            SELECT game_id, AACH.account_id as account_id, AACH.id as acc_ach_id, AACH.has_achieved, A.name, A.task, ASS.value, S.id as stats_id, date_achieved, A.id as achievement_id
+                from "Account_Achievements" as AACH
+                    inner join "Achievement" as A on AACH.account_id = {} and AACH.achievement_id = A.id
+                    inner join "Stats" as S on A.stats_id = S.id
+                    inner join "Account_Stats" as ASS on S.id = ASS.stats_id and AACH.account_id = ASS.account_id
+                    order by game_id
+            '''.format(id))
 
         result = db.session.execute(t)
         return result

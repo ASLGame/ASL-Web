@@ -75,6 +75,6 @@ class AccountStatDao:
 
     # This update method will be used with the frontend application to update an account stats value. Only for non-time values.
     @staticmethod
-    def account_stat_update(aid, sid):
+    def account_stat_update(aid, sid, json):
         get_account_stat = AccountStatDao.get_account_stat_by_acc_id_stat_id(aid, sid)
-        return AccountStatDao.update_account_stat(get_account_stat.id, {"value": get_account_stat.value + 1})
+        return AccountStatDao.update_account_stat(get_account_stat.id, {"value": get_account_stat.value + json})

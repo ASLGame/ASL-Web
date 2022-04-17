@@ -76,9 +76,9 @@ class AccountStatHandler:
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
-    def account_stat_update(aid, sid):
+    def account_stat_update(aid, sid, json):
         try: 
-            account_stat = accountStatDao.account_stat_update(aid, sid)
+            account_stat = accountStatDao.account_stat_update(aid, sid, json)
             if (account_stat):
                 return jsonify("Account stat updated."), HttpStatus.OK.value
             else:

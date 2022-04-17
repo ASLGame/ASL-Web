@@ -19,6 +19,7 @@ def account_achievements_by_id(id):
         return AccountAchievementsHandler.delete_account_achievements(id)
 
 @app.route("/signy/user-account-achievement/<int:id>", methods=['GET'])
-def get_user_account_achievement(id):
+@app.route("/signy/user-account-achievement/<int:id>/<int:gid>", methods=['GET'])
+def get_user_account_achievement(id, gid=None):
     if request.method == 'GET':
-        return AccountAchievementsHandler.get_user_account_achievement(id)
+        return AccountAchievementsHandler.get_user_account_achievement(id, gid)

@@ -55,9 +55,9 @@ class AccountAchievementsHandler:
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
-    def get_user_account_achievement(id):
+    def get_user_account_achievement(id, gid):
         try:
-            account_achievement = accountAchievementsDao.get_user_account_achievement(id)
+            account_achievement = accountAchievementsDao.get_user_account_achievement(id, gid)
             result = []
             for a in account_achievement:
                 result.append(dict(a))

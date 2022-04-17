@@ -21,4 +21,5 @@ def account_stat_by_id(id):
 @app.route("/signy/account-stat/update/<int:aid>/<int:sid>", methods=['PUT'])
 def account_stat_update(aid, sid):
     if request.method == 'PUT':
-        return AccountStatHandler.account_stat_update(aid, sid)
+        print(request.json)
+        return AccountStatHandler.account_stat_update(aid, sid, request.json)
