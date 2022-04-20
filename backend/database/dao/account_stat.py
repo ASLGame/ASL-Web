@@ -1,9 +1,11 @@
+from flask import session
 from api import db
 from database.dao.account import AccountDao
 from ..entity import account_stat
 from datetime import datetime
 from .stat import StatDao
 from api.common.utils import sql_to_dict
+from sqlalchemy import update
 
 class AccountStatDao:
 
@@ -25,9 +27,18 @@ class AccountStatDao:
 
     @staticmethod
     def update_account_stat(id, json):
-        update_account_stat = db.session.query(account_stat).where(account_stat.id == id).update({ "value": json['value'], "date_updated": datetime.utcnow()})
+        stmt = update(account_stat).where(account_stat.id == id).values(value = json).returning(account_stat.id, account_stat.value, account_stat.stats_id, account_stat.account_id)
+        result = db.session.execute(stmt).first()
         db.session.commit()
-        return update_account_stat
+        if(result):
+            update_account_stat = {
+                "id": result[0],
+                "account_id": result[3],
+                "stats_id": result[2],
+                "value": result[1]
+            }
+            return update_account_stat
+        return False
 
     @staticmethod
     def update_achieved_account_stat(id, json):
@@ -76,4 +87,6 @@ class AccountStatDao:
     @staticmethod
     def account_stat_update(aid, sid, json):
         get_account_stat = AccountStatDao.get_account_stat_by_acc_id_stat_id(aid, sid)
-        return AccountStatDao.update_account_stat(get_account_stat.id, {"value": get_account_stat.value + json})
+        if (get_account_stat):
+            return AccountStatDao.update_account_stat(get_account_stat.id, get_account_stat.value + json['value'])
+        return False

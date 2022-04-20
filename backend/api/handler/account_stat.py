@@ -80,7 +80,7 @@ class AccountStatHandler:
         try: 
             account_stat = accountStatDao.account_stat_update(aid, sid, json)
             if (account_stat):
-                return jsonify("Account stat updated."), HttpStatus.OK.value
+                return jsonify(account_stat), HttpStatus.OK.value
             else:
                 return jsonify(reason="Account stat could not be updated."), HttpStatus.BAD_REQUEST.value
         except Exception as e:
