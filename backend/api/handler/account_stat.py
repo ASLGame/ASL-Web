@@ -72,7 +72,7 @@ class AccountStatHandler:
             if (account_stat):
                 return jsonify("New Account Stats added."), HttpStatus.OK.value
             else:
-                return jsonify(reason="New Account Stats were not added."), HttpStatus.OK.BAD_REQUEST.value
+                return jsonify(reason="New Account Stats were not added."), HttpStatus.BAD_REQUEST.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
@@ -82,7 +82,7 @@ class AccountStatHandler:
             if (account_stat):
                 return jsonify("Account stat updated."), HttpStatus.OK.value
             else:
-                return jsonify(reason="Account stat could not be updated."), HttpStatus.OK.BAD_REQUEST.value
+                return jsonify(reason="Account stat could not be updated."), HttpStatus.BAD_REQUEST.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 

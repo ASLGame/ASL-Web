@@ -1,4 +1,3 @@
-from webbrowser import get
 from api import db
 from database.dao.account import AccountDao
 from ..entity import account_stat

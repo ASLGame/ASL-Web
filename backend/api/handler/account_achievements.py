@@ -42,7 +42,7 @@ class AccountAchievementsHandler:
             account_achievement = accountAchievementsDao.update_account_achievements(id, json)
             if not account_achievement:
                 return jsonify("Account Achievement not found."), HttpStatus.NOT_FOUND.value
-            return jsonify("Account Achievement updated successfully"), HttpStatus.OK.value
+            return jsonify(account_achievement), HttpStatus.OK.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
