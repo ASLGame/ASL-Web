@@ -1,6 +1,7 @@
+from datetime import datetime, timedelta, timezone
 from ..entity import score, account, game
 from api import db
-from sqlalchemy import text
+from sqlalchemy import func, text
 
 
 class ScoreDAO:
@@ -10,10 +11,27 @@ class ScoreDAO:
         return score.query.all()
 
     def get_high_scores():
-        return db.session.query(score, account.username, game.name).filter(score.account_id == account.id).filter(score.game_id == game.id).order_by(score.score.desc())
+        return db.session.query(score, account.username, game.name).filter(score.account_id == account.id).filter(score.game_id == game.id).order_by(score.score.desc()).limit(15)
         
     def get_high_scores_by_game(gid):
-        return db.session.query(score, account.username).filter(score.account_id == account.id).filter(gid == score.game_id).order_by(score.score.desc())
+        return db.session.query(score, account.username).filter(score.account_id == account.id).filter(gid == score.game_id).order_by(score.score.desc()).limit(15)
+
+    def get_high_scores_today():
+        today = datetime.now().strftime("%a, %d %b %Y")
+        return db.session.query(score, account.username, game.name).filter(score.account_id == account.id).filter(score.game_id == game.id).filter(
+            func.Date(score.date_achieved - timedelta(hours=4)) == today).order_by(score.score.desc()).limit(15)
+
+    def get_high_scores_yesterday():
+        yesterday = datetime.now() - timedelta(days=1)
+        yesterday = yesterday.strftime("%a, %d %b %Y")
+        return db.session.query(score, account.username, game.name).filter(score.account_id == account.id).filter(score.game_id == game.id).filter(
+            func.Date(score.date_achieved - timedelta(hours=4)) == yesterday).order_by(score.score.desc()).limit(15)
+
+    def get_high_scores_weekly():
+        start = datetime.now() - timedelta(days=7)
+        end = datetime.now()
+        return db.session.query(score, account.username, game.name).filter(score.account_id == account.id).filter(score.game_id == game.id).filter(
+            score.date_achieved - timedelta(hours=4) >= start).filter(score.date_achieved - timedelta(hours=4) <= end).order_by(score.score.desc()).limit(15)
 
     @staticmethod  # Creates new score
     def create_score(json):

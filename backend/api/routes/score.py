@@ -46,4 +46,18 @@ def get_high_scores():
 def get_high_scores_by_game(gid):
     if request.method == 'GET':
         return ScoreHandler.get_high_scores_by_game(gid)
+
+@app.route("/signy/scores/highscores/today", methods=["GET"])
+def get_high_scores_today():
+    if request.method == 'GET':
+        return ScoreHandler.get_high_scores_today()
         
+@app.route("/signy/scores/highscores/yesterday", methods=["GET"])
+def get_high_scores_yesterday():
+    if request.method == 'GET':
+        return ScoreHandler.get_high_scores_yesterday()
+
+@app.route("/signy/scores/highscores/weekly", methods=["GET"])
+def get_high_scores_weekly():
+    if request.method == 'GET':
+        return ScoreHandler.get_high_scores_weekly()

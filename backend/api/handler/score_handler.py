@@ -29,6 +29,46 @@ class ScoreHandler:
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
+    def get_high_scores_today():
+        try:
+            score_dao = scoreDAO.get_high_scores_today()
+            result = []
+            for s, a, g in score_dao:
+                s = sql_to_dict(s)
+                a = {"username": a}
+                g = {"name": g}
+                result.append(s | a | g)
+            return jsonify(result), HttpStatus.OK.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def get_high_scores_yesterday():
+        try:
+            score_dao = scoreDAO.get_high_scores_yesterday()
+            result = []
+            for s, a, g in score_dao:
+                s = sql_to_dict(s)
+                a = {"username": a}
+                g = {"name": g}
+                result.append(s | a | g)
+            return jsonify(result), HttpStatus.OK.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def get_high_scores_weekly():
+        try:
+            score_dao = scoreDAO.get_high_scores_weekly()
+            result = []
+            for s, a, g in score_dao:
+                s = sql_to_dict(s)
+                a = {"username": a}
+                g = {"name": g}
+                result.append(s | a | g)
+            return jsonify(result), HttpStatus.OK.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+
     def get_high_scores_by_game(gid):
         try:
             score_dao = scoreDAO.get_high_scores_by_game(gid)
