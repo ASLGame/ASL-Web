@@ -1,0 +1,22 @@
+{
+    "1": {
+        "name": "Words Spelled",
+        "description": "Tracks number of spelled words for the game Spelling Words.",
+        "type": "word"
+    },
+    "2": {
+        "name": "Letters Spelled",
+        "description": "Tracks number of spelled letters for the game Spelling Letters.",
+        "type": "letter"
+    },
+    "3": {
+        "name": "Wordle Solved",
+        "description": "Tracks number of worlde puzzles solved for the game Wordle.",
+        "type": "wordle"
+    },
+    "4": {
+        "name": "Hang Man Solved",
+        "description": "Tracks number of hang man puzzles solved for the game Hang Man.",
+        "type": "hangman"
+    }
+}

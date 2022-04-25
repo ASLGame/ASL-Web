@@ -26,7 +26,19 @@ class StatHandler:
             return jsonify(result), HttpStatus.OK.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
-
+    
+    def get_stat_by_type(type):
+        try: 
+            stat = statDao.get_stat_by_type(type)
+            if len(stat) < 1:
+                return jsonify("Stat with Type: {} does not exist.".format(type)), HttpStatus.NOT_FOUND.value
+            res = []
+            for s in stat:
+                res.append(sql_to_dict(s))
+            return jsonify(res), HttpStatus.OK.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+    
     def create_stat(json):
         try: 
             stat = statDao.create_stat(json)

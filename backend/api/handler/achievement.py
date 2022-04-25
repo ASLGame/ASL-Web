@@ -57,3 +57,15 @@ class AchievementHandler:
             return jsonify("Achievement deleted."), HttpStatus.OK.value
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def get_game_achievements(gid):
+        try: 
+            game_achievements = achievementDao.get_game_achievements(gid)
+            if not game_achievements:
+                return jsonify("Game achievements not found."), HttpStatus.NOT_FOUND.value
+            result = []
+            for ach in game_achievements:
+                result.append(sql_to_dict(ach))
+            return jsonify(result), HttpStatus.OK.value
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value

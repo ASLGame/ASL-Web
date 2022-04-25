@@ -10,6 +10,25 @@ def sql_to_dict(obj):
     obj.pop('_sa_instance_state', None)
     return obj
 
+# @params
+# start: start of the range
+# end: end of range (exclusive) we add the +1
+# step: amount to increment on each iteration
+# Store achievements in array and return said array
+def create_achievement(stats_id, game_id, name, type, description, start, end, step=None):
+    result = []
+    for x in range(start, end+1, step):
+        ach = {
+            "stats_id": stats_id,
+            "game_id": game_id,
+            "name": name.format(x),
+            "type": type,
+            "task": x,
+            "description": description.format(x),
+        }
+        result.append(ach)
+    return result
+
 def dummyDB():
     new_account = account(username="yamil9926", email="yamil.irizarry@upr.edu", password=sha256.hash("password"), DOB=func.now(), first_name="Yamil", last_name="Irizarry", 
                                 date_created=func.now(), date_updated=func.now(), role="Admin")
