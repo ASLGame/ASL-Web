@@ -13,7 +13,5 @@ class Game(db.Model):
     rules = Column(Text, nullable=False)
     type = Column(Text, nullable=False)
     date_created = Column(DateTime(True), nullable=False, server_default=text("CURRENT_TIMESTAMP"))
-    bank_id = Column(ForeignKey('Bank.id'), nullable=False)
 
-    bank = relationship('Bank')
     gameAssets = relationship(GameAsset, back_populates='game')

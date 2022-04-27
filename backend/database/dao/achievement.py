@@ -16,7 +16,7 @@ class AchievementDAO:
     def create_achievement(json):
         new_achievement = achievement(stats_id=json['stats_id'], 
                 game_id=json['game_id'], name=json['name'], type=json['type'], task=json['task'],
-                description=json['description'], date_created=datetime.utcnow())
+                description=json['description'])
         db.session.add(new_achievement)
         db.session.commit()
         return new_achievement.id

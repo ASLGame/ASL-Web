@@ -19,8 +19,7 @@ class AccountAchievementsDAO:
     def create_account_achievements(json):
         new_account_achievement = account_achievements(account_id=json['account_id'], 
                 achievement_id=json['achievement_id'], has_achieved=json.get('has_achieved'), 
-                date_achieved=json.get('date_achieved'),date_created=datetime.utcnow(), 
-                date_updated=datetime.utcnow())
+                date_achieved=json.get('date_achieved'))
         db.session.add(new_account_achievement)
         db.session.commit()
         return new_account_achievement.id
