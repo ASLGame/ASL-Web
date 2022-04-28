@@ -27,7 +27,7 @@ def create_achievement(stats_id, game_id, name, type, description, start, end, s
 
         db.session.add(new_achievement)
 
-def dummyDB():
+def initializeDB():
 
     #Accounts
     # new_account = account(username="yamil9926", email="yamil.irizarry@upr.edu", password=sha256.hash("password"), DOB=func.now(), first_name="Yamil", last_name="Irizarry", 
