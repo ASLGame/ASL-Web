@@ -5,6 +5,7 @@ from enum import IntEnum
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 from config import load_config
+import boto3
 
 #App instance
 app = Flask("Signy")
@@ -29,6 +30,10 @@ db = SQLAlchemy(app)
 jwt = JWTManager(app)
 mail = Mail(app)
 CORS(app, support_credentials=True)
+
+# AWS BOTO3 Using Amazon S3 instance
+s3 = boto3.client('s3')
+
 
 class HttpStatus(IntEnum):
     OK = 200

@@ -15,3 +15,4 @@ class Account(db.Model):
     date_updated = Column(DateTime(True), nullable=False, server_default=text("CURRENT_TIMESTAMP"))
     role = Column(Text, nullable=False)
     email_confirmed = Column(Boolean, nullable=False, default=False)
+    profile_picture_path = Column(Text)
