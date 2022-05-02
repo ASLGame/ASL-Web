@@ -12,7 +12,7 @@ class Achievement(db.Model):
     type = Column(Text, nullable=False)
     task = Column(Integer, nullable=False)
     description = Column(Text, nullable=False)
-    date_created = Column(DateTime(True), nullable=False)
+    date_created = Column(DateTime(True), nullable=False, server_default=text("CURRENT_TIMESTAMP"))
 
     account_stats = relationship('Stat')
     game = relationship('Game')

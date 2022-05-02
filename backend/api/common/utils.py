@@ -14,94 +14,94 @@ def sql_to_dict(obj):
 # start: start of the range
 # end: end of range (exclusive) we add the +1
 # step: amount to increment on each iteration
-# Store achievements in array and return said array
+# Create Achievement
 def create_achievement(stats_id, game_id, name, type, description, start, end, step=None):
-    result = []
     for x in range(start, end+1, step):
-        ach = {
-            "stats_id": stats_id,
-            "game_id": game_id,
-            "name": name.format(x),
-            "type": type,
-            "task": x,
-            "description": description.format(x),
-        }
-        result.append(ach)
-    return result
 
-def dummyDB():
-    new_account = account(username="yamil9926", email="yamil.irizarry@upr.edu", password=sha256.hash("password"), DOB=func.now(), first_name="Yamil", last_name="Irizarry", 
-                                date_created=func.now(), date_updated=func.now(), role="Admin")
-    db.session.add(new_account)
-    new_account = account(username="jose_a", email="jose.biescas@upr.edu", password=sha256.hash("123456"), DOB=func.now(), first_name="Jose", last_name="Biescas", 
-                                date_created=func.now(), date_updated=func.now(), role="Admin")
-    db.session.add(new_account)
-    new_bank = bank(name="Bank", description="Description")
-    db.session.add(new_bank)
-    new_game = game(name="Game One", description="A game you can play", rules="1. Dont talk about Fight Club", type="Text", date_created=func.now(), bank_id=1)
+        new_achievement = achievement(stats_id=stats_id,
+            game_id=game_id,
+            name=name.format(x),
+            type=type,
+            task=x,
+            description=description.format(x))
+
+        db.session.add(new_achievement)
+
+def initializeDB():
+
+    #Accounts
+    # new_account = account(username="yamil9926", email="yamil.irizarry@upr.edu", password=sha256.hash("password"), DOB=func.now(), first_name="Yamil", last_name="Irizarry", 
+    #                             date_created=func.now(), date_updated=func.now(), role="Admin")
+    # db.session.add(new_account)
+    # new_account = account(username="jose_a", email="jose.biescas@upr.edu", password=sha256.hash("123456"), DOB=func.now(), first_name="Jose", last_name="Biescas", 
+    #                             date_created=func.now(), date_updated=func.now(), role="Admin")
+    # db.session.add(new_account)
+
+    #Games
+    new_game = game(name="Spelling Words", description="Spell the given words using the proper ASL sign.", rules="1. Spell the given word!", type="word")
     db.session.add(new_game)
-    new_game = game(name="Game Two", description="Another game you can play", rules="1. Dont talk about Fight Club", type="Text", date_created=func.now(), bank_id=1)
+    new_game = game(name="Spelling Letters", description="Spell the given letters one by one using the proper ASL sign.", rules="1. Spell the given letters before time runs out!", type="letter")
     db.session.add(new_game)
-    new_game = game(name="Game Three", description="Yet another game you can play", rules="1. Dont talk about Fight Club", type="Text", date_created=func.now(), bank_id=1)
+    new_game = game(name="Hang Man", description="Try to guess the word", rules="1. Guess all the letters in the word/n2. Get 10 wrong guesses and you lose", type="hangman")
     db.session.add(new_game)
-    new_score = score(score=420, date_achieved=func.now(), account_id=1, game_id=1)
-    db.session.add(new_score)
-    new_stat = stat(name="Words Spelled", description="Number of spelled words", type="Word")
+    new_game = game(name="Wordle", description="Use knowledge and luck to guess the word in as few tries as possible!", rules="1. You have six chances to guess the secret word. Type in a word as a guess, and the game tells you which letters are or aren't in the word. The aim is to figure out the secret word with the fewest guesses./n 2. Clicking on a letter in the current row will delete the letter and allow you to input another one.", type="wordle")
+    db.session.add(new_game)
+
+    #Stat
+    new_stat = stat(name="Words Spelled", description="Tracks number of spelled words for the game Spelling Words.", type="word")
     db.session.add(new_stat)
-    new_account_stat = account_stat(account_id=1, stats_id=1, value=0, date_created=func.now(), date_updated=func.now())
-    db.session.add(new_account_stat)
-    new_account_stat = account_stat(account_id=2, stats_id=1, value=0, date_created=func.now(), date_updated=func.now())
-    db.session.add(new_account_stat)
-    new_achievement = achievement(name="Spell 10 words", type="Word", description="User has to spell 10 words", date_created=func.now(), task=10, stats_id=1, game_id=1)
+    new_stat = stat(name="Letters Spelled", description="Tracks number of spelled letters for the game Spelling Letters.", type="letter")
+    db.session.add(new_stat)
+    new_stat = stat(name="Hang Man Solved", description="Tracks number of hang man puzzles solved for the game Hang Man.", type="hangman")
+    db.session.add(new_stat)
+    new_stat = stat(name="Wordle Solved", description="Tracks number of worlde puzzles solved for the game Wordle.", type="wordle")
+    db.session.add(new_stat)
+
+    #Achievements
+    new_achievement = achievement(stats_id=1, game_id=1, name="Spell 1 word", type="word", task=1, description="Nice job! You spelled your first word!")
     db.session.add(new_achievement)
-    new_achievement = achievement(name="Spell 20 words", type="Word", description="User has to spell 20 words", date_created=func.now(), task=20, stats_id=1, game_id=1)
+    new_achievement = achievement(stats_id=1, game_id=1, name="Spell 10 word", type="word", task=10, description="Getting warmed up! You've spelled 10 words!")
     db.session.add(new_achievement)
-    new_achievement = achievement(name="Spell 30 words", type="Word", description="User has to spell 30 words", date_created=func.now(), task=30, stats_id=1, game_id=1)
+    new_achievement = achievement(stats_id=1, game_id=1, name="Spell 50 word", type="word", task=50, description="You're a natural! You've spelled 50 words!")
     db.session.add(new_achievement)
-    new_account_achievement = account_achievements(account_id=1, has_achieved=False, date_created=func.now(), date_updated=func.now(), achievement_id=1)
-    db.session.add(new_account_achievement)
-    new_account_achievement = account_achievements(account_id=1, has_achieved=False, date_created=func.now(), date_updated=func.now(), achievement_id=2)
-    db.session.add(new_account_achievement)
-    new_account_achievement = account_achievements(account_id=1, has_achieved=False, date_created=func.now(), date_updated=func.now(), achievement_id=3)
-    db.session.add(new_account_achievement)
-    new_account_achievement = account_achievements(account_id=2, has_achieved=False, date_created=func.now(), date_updated=func.now(), achievement_id=1)
-    db.session.add(new_account_achievement)
-    new_account_achievement = account_achievements(account_id=2, has_achieved=False, date_created=func.now(), date_updated=func.now(), achievement_id=2)
-    db.session.add(new_account_achievement)
-    new_account_achievement = account_achievements(account_id=2, has_achieved=False, date_created=func.now(), date_updated=func.now(), achievement_id=3)
-    db.session.add(new_account_achievement)
-    new_score = score(score=2134, date_achieved=func.now(), account_id=1, game_id=1)
-    db.session.add(new_score)
-    new_score = score(score=3213, date_achieved=func.now(), account_id=1, game_id=1)
-    db.session.add(new_score)
-    new_score = score(score=7557, date_achieved=func.now(), account_id=1, game_id=1)
-    db.session.add(new_score)
-    new_score = score(score=3453, date_achieved=func.now(), account_id=1, game_id=1)
-    db.session.add(new_score)
-    new_score = score(score=8678, date_achieved=func.now(), account_id=1, game_id=1)
-    db.session.add(new_score)
-    new_score = score(score=7689, date_achieved=func.now(), account_id=1, game_id=1)
-    db.session.add(new_score)
-    new_score = score(score=4234, date_achieved=func.now(), account_id=2, game_id=2)
-    db.session.add(new_score)
-    new_score = score(score=1235, date_achieved=func.now(), account_id=2, game_id=1)
-    db.session.add(new_score)
-    new_score = score(score=6456, date_achieved=func.now(), account_id=2, game_id=3)
-    db.session.add(new_score)
-    new_score = score(score=8678, date_achieved=func.now(), account_id=2, game_id=1)
-    db.session.add(new_score)
-    new_score = score(score=3125, date_achieved=func.now(), account_id=2, game_id=2)
-    db.session.add(new_score)
-    new_score = score(score=6417, date_achieved=func.now(), account_id=2, game_id=3)
-    db.session.add(new_score)
-    new_asset = game_asset(name="One", description="Picture of a number 1", type="Picture", path="https://cdn.vox-cdn.com/thumbor/Hgbit5XaEq1wAhGPYtb1R-kD570=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/12055117/logo_one_icon.jpg", 
+    new_achievement = achievement(stats_id=1, game_id=1, name="Spell 100 word", type="word", task=100, description="Outstanding! You've spelled 100 words!")
+    db.session.add(new_achievement)
+    new_achievement = achievement(stats_id=1, game_id=1, name="Spell 200 word", type="word", task=200, description="You're now a master, congratulations on spelling 200 words")
+    db.session.add(new_achievement)
+
+    new_achievement = achievement(stats_id=3, game_id=3, name="Solve 1 Hang Man Puzzles", type="hangman", task=1, description="Nice job! You solved your first puzzle!")
+    db.session.add(new_achievement)
+    new_achievement = achievement(stats_id=3, game_id=3, name="Solve 10 Hang Man Puzzles", type="hangman", task=10, description="Getting warmed up! You've solved 10 puzzles!")
+    db.session.add(new_achievement)
+    new_achievement = achievement(stats_id=3, game_id=3, name="Solve 50 Hang Man Puzzles", type="hangman", task=50, description="You're a natural! You've solved 50 puzzles!")
+    db.session.add(new_achievement)
+    new_achievement = achievement(stats_id=3, game_id=3, name="Solve 100 Hang Man Puzzles", type="hangman", task=100, description="Outstanding! You've solved 100 puzzles!")
+    db.session.add(new_achievement)
+    new_achievement = achievement(stats_id=3, game_id=3, name="Solve 200 Hang Man Puzzles", type="hangman", task=200, description="You're now a master, congratulations on solving 200 puzzles")
+    db.session.add(new_achievement)
+
+    new_achievement = achievement(stats_id=4, game_id=4, name="Solve 1 Wordle Puzzles", type="wordle", task=1, description="Nice job! You solved your first puzzle!")
+    db.session.add(new_achievement)
+    new_achievement = achievement(stats_id=4, game_id=4, name="Solve 10 Wordle Puzzles", type="wordle", task=10, description="Getting warmed up! You've solved 10 puzzles!")
+    db.session.add(new_achievement)
+    new_achievement = achievement(stats_id=4, game_id=4, name="Solve 50 Wordle Puzzles", type="wordle", task=50, description="You're a natural! You've solved 50 puzzles!")
+    db.session.add(new_achievement)
+    new_achievement = achievement(stats_id=4, game_id=4, name="Solve 100 Wordle Puzzles", type="wordle", task=100, description="Outstanding! You've solved 100 puzzles!")
+    db.session.add(new_achievement)
+    new_achievement = achievement(stats_id=4, game_id=4, name="Solve 200 Wordle Puzzles", type="wordle", task=200, description="You're now a master, congratulations on solving 200 puzzles")
+    db.session.add(new_achievement)
+
+    new_asset = game_asset(name="thumbnail", description="Spelling Words", type="Picture", path="https://signy-asl-models.s3.amazonaws.com/gameImages/spellingWords.jpg", 
                             date_created=func.now(), date_updated=func.now(), game_id=1)
     db.session.add(new_asset)
-    new_asset = game_asset(name="Two", description="Picture of a number 2", type="Picture", path="https://www.freeiconspng.com/uploads/number-two-icon-18.jpg", 
+    new_asset = game_asset(name="thumbnail", description="Spelling Letters", type="Picture", path="https://signy-asl-models.s3.amazonaws.com/gameImages/spellingLetters.jpg", 
                             date_created=func.now(), date_updated=func.now(), game_id=2)
     db.session.add(new_asset)
-    new_asset = game_asset(name="Three", description="Picture of a number 3", type="Picture", path="https://www.nicepng.com/png/detail/38-385284_number-3-png-number-3-transparent-background.png", 
+    new_asset = game_asset(name="thumbnail", description="Hang Man", type="Picture", path="https://signy-asl-models.s3.amazonaws.com/gameImages/hangman.jpg", 
                             date_created=func.now(), date_updated=func.now(), game_id=3)
+    db.session.add(new_asset)
+    new_asset = game_asset(name="thumbnail", description="Wordle", type="Picture", path="https://signy-asl-models.s3.amazonaws.com/gameImages/wordle.jpg", 
+                            date_created=func.now(), date_updated=func.now(), game_id=4)
     db.session.add(new_asset)
     db.session.commit()
     return True

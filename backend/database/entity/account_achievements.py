@@ -9,8 +9,8 @@ class AccountAchievements(db.Model):
     achievement_id = Column(ForeignKey('Achievement.id', ondelete='CASCADE'), nullable=False)
     has_achieved = Column(Boolean, nullable=False, server_default=text("false"))
     date_achieved = Column(Date)
-    date_created = Column(DateTime(True), nullable=False)
-    date_updated = Column(DateTime(True), nullable=False)
+    date_created = Column(DateTime(True), nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    date_updated = Column(DateTime(True), nullable=False, server_default=text("CURRENT_TIMESTAMP"))
     
     account = relationship('Account')
     achievement = relationship('Achievement')
