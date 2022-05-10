@@ -110,15 +110,21 @@ class AccountHandler:
 
     def sign_in(json):
         try:
-            account_dao = accountDAO.get_account_username(json['username'])
+            account_dao = None
+            if json.get('username') == None:
+                account_dao = accountDAO.get_account_email(json.get('email'))
+            else:
+                account_dao = accountDAO.get_account_username(json.get('username'))           
             if account_dao:
                 account_dao = sql_to_dict(account_dao)
-                if(sha256.verify(json['password'], account_dao['password'])):
+                if(sha256.verify(json.get('password'), account_dao.get('password'))):
                     access_token = create_access_token(identity=account_dao['id'], expires_delta=timedelta(days=1))
                     return jsonify(access_token = access_token, account_id = account_dao['id'], account_username = account_dao['username'], account_firstname = account_dao['first_name'], account_dob = account_dao['DOB'], account_lastname = account_dao['last_name'], account_created = account_dao['date_created'], account_email = account_dao['email'], account_role=account_dao['role'], account_profile_picture=account_dao['profile_picture_path']), HttpStatus.OK.value
                 else:
                     return jsonify(reason="Password did not match"), HttpStatus.BAD_REQUEST.value
-            return jsonify(reason="Username not found"), HttpStatus.BAD_REQUEST.value
+            else: 
+                
+                return jsonify(reason="Username or email not found"), HttpStatus.BAD_REQUEST.value
         except Exception as e:
              return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
