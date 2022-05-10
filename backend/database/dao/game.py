@@ -13,7 +13,7 @@ class GameDao:
     
     @staticmethod
     def create_game(json):
-        new_game = game(name=json['name'], description=json['description'], rules=json['rules'], type=json['type'], date_created=json['date_created'], bank_id=json['bank_id'])
+        new_game = game(name=json['name'], description=json['description'], rules=json['rules'], type=json['type'], date_created=json['date_created'])
         db.session.add(new_game)
         db.session.commit()
 
