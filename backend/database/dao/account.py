@@ -1,6 +1,7 @@
 from ..entity import account
-from api import db
+from api import db, s3
 from passlib.hash import pbkdf2_sha256 as sha256
+from botocore.exceptions import ClientError
 
 class AccountDao: 
     
@@ -73,4 +74,13 @@ class AccountDao:
     def get_account_ln(lname):
         return db.session.query(account).filter(account.last_name == lname).first()
 
-        
+    @staticmethod
+    def upload_profile_picture(image, uid, username):
+        try:
+            s3.upload_fileobj(image, 'signy-asl-models', 'profileImages/{}'.format(username))
+        except ClientError as e:
+            return False
+        account_updated = db.session.query(account).where(account.id == uid).update({"profile_picture_path": "https://signy-asl-models.s3.amazonaws.com/profileImages/{}".format(username)})
+        print(account_updated)
+        db.session.commit()
+        return account_updated

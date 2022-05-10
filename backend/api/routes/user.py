@@ -46,3 +46,9 @@ def edit_profile(uid):
 def change_password(uid):
     if request.method == 'PUT':
         return AccountHandler.change_password(uid, request.json)
+
+@app.route("/signy/accounts/upload/profile/picture/<int:uid>/<string:username>", methods=['POST'])
+def upload_profile_picture(uid, username):
+    if request.method == 'POST':
+        image = request.files.get('userpic')
+        return AccountHandler.upload_profile_picture(image, uid, username)

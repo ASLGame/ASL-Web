@@ -115,7 +115,7 @@ class AccountHandler:
                 account_dao = sql_to_dict(account_dao)
                 if(sha256.verify(json['password'], account_dao['password'])):
                     access_token = create_access_token(identity=account_dao['id'], expires_delta=timedelta(days=1))
-                    return jsonify(access_token = access_token, account_id = account_dao['id'], account_username = account_dao['username'], account_firstname = account_dao['first_name'], account_dob = account_dao['DOB'], account_lastname = account_dao['last_name'], account_created = account_dao['date_created'], account_email = account_dao['email'], account_role=account_dao['role']), HttpStatus.OK.value
+                    return jsonify(access_token = access_token, account_id = account_dao['id'], account_username = account_dao['username'], account_firstname = account_dao['first_name'], account_dob = account_dao['DOB'], account_lastname = account_dao['last_name'], account_created = account_dao['date_created'], account_email = account_dao['email'], account_role=account_dao['role'], account_profile_picture=account_dao['profile_picture_path']), HttpStatus.OK.value
                 else:
                     return jsonify(reason="Password did not match"), HttpStatus.BAD_REQUEST.value
             return jsonify(reason="Username not found"), HttpStatus.BAD_REQUEST.value
@@ -193,5 +193,18 @@ class AccountHandler:
                     return jsonify("Could not change password"), HttpStatus.NOT_FOUND.value
             else:
                 return jsonify("Password did not match with current password"), HttpStatus.BAD_REQUEST.value
+        except Exception as e:
+             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def upload_profile_picture(image, uid, username):
+        try:
+            if image == None:
+                return jsonify(reason="Image was not provided"), HttpStatus.BAD_REQUEST.value
+            else:
+                result = accountDAO.upload_profile_picture(image, uid, username)
+                if result:
+                    return jsonify("Success"), HttpStatus.OK.value
+                else:
+                    return jsonify(reason="Image could not be uploaded"), HttpStatus.BAD_REQUEST.value
         except Exception as e:
              return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
