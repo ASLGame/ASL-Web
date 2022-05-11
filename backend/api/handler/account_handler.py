@@ -162,10 +162,9 @@ class AccountHandler:
             accountDAO.confirm_account(account.id)
             return jsonify("Account successfully confirmed"), HttpStatus.OK.value
                 
-    def confirm_token(token, expiration=10):
+    def confirm_token(token, expiration=3600):
         serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
         try:
-            serializer.loads()
             email = serializer.loads(
                 token,
                 salt=app.config['SECRET_SALT'],
@@ -245,6 +244,7 @@ class AccountHandler:
                 return jsonify(reason="Token expired"), HttpStatus.BAD_REQUEST.value
             reset = accountDAO.reset_password(id, json)
             if reset: 
+                result = accountDAO.empty_account_reset_password_id(id, None)
                 return jsonify("Success"), HttpStatus.OK.value
             return jsonify(reason="Token is invalid"), HttpStatus.BAD_REQUEST.value
             

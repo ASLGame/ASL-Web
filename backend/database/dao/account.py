@@ -100,3 +100,9 @@ class AccountDao:
         account_updated = db.session.query(account).where(account.reset_password_id == id).update({"password": hashed_password})
         db.session.commit()
         return account_updated
+
+    @staticmethod
+    def empty_account_reset_password_id(id, token):
+        account_updated = db.session.query(account).where(account.reset_password_id == id).update({"reset_password_id": token})
+        db.session.commit()
+        return account_updated
