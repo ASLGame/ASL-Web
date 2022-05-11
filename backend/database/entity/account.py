@@ -16,3 +16,4 @@ class Account(db.Model):
     role = Column(Text, nullable=False)
     email_confirmed = Column(Boolean, nullable=False, default=False)
     profile_picture_path = Column(Text)
+    reset_password_id = Column(Text)

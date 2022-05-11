@@ -1,3 +1,4 @@
+from crypt import methods
 from api import app
 from api.handler.account_handler import AccountHandler
 from flask import request
@@ -52,3 +53,15 @@ def upload_profile_picture(uid, username):
     if request.method == 'POST':
         image = request.files.get('userpic')
         return AccountHandler.upload_profile_picture(image, uid, username)
+
+@app.route("/signy/forgot-password", methods=['POST'])
+def forgot_password():
+    if request.method == 'POST':
+        return AccountHandler.forgot_password(request.json)
+
+@app.route("/signy/forgot-password/<string:id>", methods=['GET', 'POST'])
+def get_forgot_password(id):
+    if request.method == 'GET':
+        return AccountHandler.get_forgot_password(id)
+    if request.method == 'POST':
+        return AccountHandler.set_forgot_password(request.json, id)
