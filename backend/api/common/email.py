@@ -14,3 +14,14 @@ def send_email(to, subject, token):
             If you did not make this account, please ignore this email.
         '''
     mail.send(msg)
+
+def send_reset_email(to, subject, token):
+    msg = Message(
+        subject,
+        recipients=[to],
+        sender=app.config['MAIL_USERNAME'])
+    msg.body=f'''
+            To reset your password click the following link: https://signy-frontend.herokuapp.com/forgot-password/{token}
+            If you did not request to change your password, please ignore this email.
+        '''
+    mail.send(msg)

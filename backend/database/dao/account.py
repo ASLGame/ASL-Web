@@ -81,6 +81,28 @@ class AccountDao:
         except ClientError as e:
             return False
         account_updated = db.session.query(account).where(account.id == uid).update({"profile_picture_path": "https://signy-asl-models.s3.amazonaws.com/profileImages/{}".format(username)})
-        print(account_updated)
+        db.session.commit()
+        return account_updated
+
+    @staticmethod
+    def get_account_reset_password_id(id):
+        return db.session.query(account).filter(account.reset_password_id == id).first()
+
+    @staticmethod
+    def put_account_reset_password_id(email, id):
+        account_updated = db.session.query(account).where(account.email == email).update({"reset_password_id": id})
+        db.session.commit()
+        return account_updated
+
+    @staticmethod
+    def reset_password(id, json):
+        hashed_password = sha256.hash(json.get('password'))
+        account_updated = db.session.query(account).where(account.reset_password_id == id).update({"password": hashed_password})
+        db.session.commit()
+        return account_updated
+
+    @staticmethod
+    def empty_account_reset_password_id(id, token):
+        account_updated = db.session.query(account).where(account.reset_password_id == id).update({"reset_password_id": token})
         db.session.commit()
         return account_updated

@@ -6,9 +6,10 @@ from flask import jsonify
 from api import HttpStatus, app
 from api.common.utils import sql_to_dict
 from itsdangerous import URLSafeTimedSerializer
-from api.common.email import send_email
+from api.common.email import send_email, send_reset_email
 from flask_jwt_extended import create_access_token
 from passlib.hash import pbkdf2_sha256 as sha256
+import random
 
 class AccountHandler:
 
@@ -110,15 +111,21 @@ class AccountHandler:
 
     def sign_in(json):
         try:
-            account_dao = accountDAO.get_account_username(json['username'])
+            account_dao = None
+            if json.get('username') == None:
+                account_dao = accountDAO.get_account_email(json.get('email'))
+            else:
+                account_dao = accountDAO.get_account_username(json.get('username'))           
             if account_dao:
                 account_dao = sql_to_dict(account_dao)
-                if(sha256.verify(json['password'], account_dao['password'])):
+                if(sha256.verify(json.get('password'), account_dao.get('password'))):
                     access_token = create_access_token(identity=account_dao['id'], expires_delta=timedelta(days=1))
                     return jsonify(access_token = access_token, account_id = account_dao['id'], account_username = account_dao['username'], account_firstname = account_dao['first_name'], account_dob = account_dao['DOB'], account_lastname = account_dao['last_name'], account_created = account_dao['date_created'], account_email = account_dao['email'], account_role=account_dao['role'], account_profile_picture=account_dao['profile_picture_path']), HttpStatus.OK.value
                 else:
                     return jsonify(reason="Password did not match"), HttpStatus.BAD_REQUEST.value
-            return jsonify(reason="Username not found"), HttpStatus.BAD_REQUEST.value
+            else: 
+                
+                return jsonify(reason="Username or email not found"), HttpStatus.BAD_REQUEST.value
         except Exception as e:
              return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
 
@@ -131,7 +138,7 @@ class AccountHandler:
             if username_exists:
                 return jsonify(reason="Username already taken"), HttpStatus.BAD_REQUEST.value
             create_account = accountDAO.create_account(json)
-            token = AccountHandler.generate_confirmation_token(json.get('email'))
+            token = AccountHandler.generate_token(json.get('email'))
             send_email(json['email'], "Email Confirmation Code", token)
             init_stats = AccountStatHandler.account_stats_initialize(create_account)
             init_achievements = AccountAchievementsHandler.account_achievements_initialize(create_account)
@@ -167,7 +174,7 @@ class AccountHandler:
             return False
         return email
     
-    def generate_confirmation_token(email):
+    def generate_token(email):
                 serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
                 return serializer.dumps(email, salt=app.config['SECRET_SALT'])
 
@@ -206,5 +213,40 @@ class AccountHandler:
                     return jsonify("Success"), HttpStatus.OK.value
                 else:
                     return jsonify(reason="Image could not be uploaded"), HttpStatus.BAD_REQUEST.value
+        except Exception as e:
+             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    
+    def get_forgot_password(id):
+        try: 
+            result = accountDAO.get_account_reset_password_id(id)
+            if result:
+                return jsonify("Success"), HttpStatus.OK.value
+            return jsonify(reason="Reset Password ID is invalid."), HttpStatus.BAD_REQUEST.value
+        except Exception as e:
+             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+
+    def forgot_password(json):
+        try:
+            token = AccountHandler.generate_token(random.randint(10000000000000, 30000000000000))
+            result = accountDAO.put_account_reset_password_id(json.get('email'), token)
+            if result:
+                send_reset_email(json.get('email'), 'Password reset', token)
+                return jsonify("Success"), HttpStatus.OK.value
+            return jsonify(reason="User not found."), HttpStatus.BAD_REQUEST.value
+        except Exception as e:
+             return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
+    
+    def set_forgot_password(json, id):
+        try:
+            result = AccountHandler.confirm_token(id)
+            if not result:
+                return jsonify(reason="Token expired"), HttpStatus.BAD_REQUEST.value
+            reset = accountDAO.reset_password(id, json)
+            if reset: 
+                result = accountDAO.empty_account_reset_password_id(id, None)
+                return jsonify("Success"), HttpStatus.OK.value
+            return jsonify(reason="Token is invalid"), HttpStatus.BAD_REQUEST.value
+            
         except Exception as e:
              return jsonify(reason="Server error", error=e.__str__()), HttpStatus.INTERNAL_SERVER_ERROR.value
